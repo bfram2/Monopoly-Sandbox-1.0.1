@@ -1,6 +1,8 @@
-//Paying Rent on any Property
+//Paying Rent on any Property, except for the free space, tax, chance, visiting arena, & community
 
 /*
+Free Market Trade space: nothing happens, no rent to be paid
+
 Germania Inferior: Rent $2, With 1 Villa $10, With 2 Villas $30, With 3 Villas $90 With 4 Villas $160, with Pantheon $250, Houses cost $50 each, Hotels: $50 each plus 4 houses
 Germania Superior: Rent $4, With 1 Villa $20, With 2 Villas $60, With 3 Villas $180 With 4 Villas $320, with Pantheon $450, Houses cost $50 each, Hotels: $50 each plus 4 houses
 Alpes Poeniae: Rent $6, With 1 Villa $30, With 2 Villas $90, With 3 Villas $270 With 4 Villas $400, with Pantheon $550, Houses cost $50 each, Hotels: $50 each plus 4 houses
