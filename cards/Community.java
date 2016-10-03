@@ -1,4 +1,4 @@
-/* For Community Cards */
+/* For Community Chest Cards */
 
 /*
 Bank error in your favor. Collect $200.
