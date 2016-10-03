@@ -1,4 +1,4 @@
-/* For Community Chest Cards */
+//For Community Chest Cards, activate using images or background image with text.
 
 /*
 Bank error in your favor. Collect $200.
