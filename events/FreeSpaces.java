@@ -1,2 +1,5 @@
-//Seeing a show at the Arena and Free Market Trade
-//no rent, tax, or buying
+// Seeing a show at the Arena and Free Market Trade
+/*
+no rent, tax, or buying
+move token only
+*/
