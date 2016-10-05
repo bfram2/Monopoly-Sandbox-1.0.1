@@ -15,10 +15,10 @@ import menu.*;
 //import cards.*;
 
 class MainMenu extends JFrame {
-JButton game;
-JButton set;
-JButton help;
-JButton bear;
+JButton game; //start game button
+JButton set;  //adjust settings button
+JButton help; //help or user manual button
+JButton bear; //exit button
 	public MainMenu() {
 	setTitle("Monopoly");
 	setSize(744,744);
@@ -34,20 +34,20 @@ JButton bear;
 	set=new JButton(" Settings ");
 	help=new JButton(" Help ");
 	bear=new JButton(" Exit ");
-	game.setForeground(Color.WHITE);
-	game.setBackground(new Color(73,175,47));
+	game.setForeground(Color.WHITE); //font color
+	game.setBackground(new Color(73,175,47)); //button fill color
 	set.setForeground(Color.BLACK);
 	set.setBackground(Color.WHITE);
 	help.setForeground(Color.BLACK);
 	help.setBackground(Color.WHITE);
 	bear.setForeground(Color.WHITE);
 	bear.setBackground(new Color(244,31,31));
-	background.add(game);
+	background.add(game); //inserting buttons
 	background.add(set);
 	background.add(help);
 	background.add(bear);
 
-	// refreshes page
+	// refreshes the page to make sure images have loaded
 	setSize(744,744);
 	setSize(743,743);
 	}
