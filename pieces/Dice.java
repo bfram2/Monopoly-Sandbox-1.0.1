@@ -1,4 +1,5 @@
 // 2 6-sided dice rolls
+//random pieces of code to be gutted and made proper later
 import java.awt.Container;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
