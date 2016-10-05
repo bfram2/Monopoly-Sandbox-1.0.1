@@ -9,7 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import pieces.*;
+import pieces.*; //to import folders later
 import menu.*;
 //import events.*;
 //import cards.*;
