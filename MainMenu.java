@@ -44,7 +44,7 @@ JButton bear;
 	background.add(help);
 	background.add(bear);
 
-	// Just for refresh
+	// refreshes page
 	setSize(744,744);
 	setSize(743,743);
 	}
