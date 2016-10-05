@@ -1,6 +1,5 @@
 //The Main Menu for the game to start and to pick the players, type of game, citation, and help.
-
-//The Main Menu for the game to start and to pick the players, type of game, citation, and help.
+//This is the main file
 /* Trademark of Hasboro and Parker Brothers */
 
 import javax.swing.*;
@@ -10,6 +9,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import pieces.*;
+import menu.*;
+//import events.*;
+//import cards.*;
 
 class MainMenu extends JFrame {
 JButton game;
@@ -50,5 +53,6 @@ JButton bear;
 	}
 	public static void main(String args[]) {
 		new MainMenu();
+		//Add event listeners
 		}
 }
