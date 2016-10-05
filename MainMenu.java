@@ -14,6 +14,7 @@ import menu.*;
 //import events.*;
 //import cards.*;
 
+//later add implements ActionListener to class
 class MainMenu extends JFrame {
 JButton game; //start game button
 JButton set;  //adjust settings button
