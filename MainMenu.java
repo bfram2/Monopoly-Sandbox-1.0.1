@@ -43,7 +43,7 @@ JButton game, set, help, bear;
 	help=new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>H</u>elp</div>");
 	bear=new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>E</u>xit</div>");
 	game.setBackground(new Color(73,175,47));
-	game.setVerticalAlignment(AbstractButton.CENTER);
+	//game.setVerticalAlignment(AbstractButton.CENTER);
 	set.setBackground(new Color (128,0,0));
 	help.setBackground(Color.BLACK);
 	bear.setBackground(new Color(244,31,31));
