@@ -2,11 +2,13 @@
 //This is the main file
 /* Trademark of Hasboro and Parker Brothers */
 
-import pieces.*; //to import folders later
-import menu.*;
+//guide to implement folders into master
+//import pieces.*;
+//import menu.*;
 //import events.*;
 //import cards.*;
 
+import pieces.Board; //activate board
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
@@ -73,7 +75,7 @@ JButton game, set, help, bear;
 		if(e.getSource() == game) {
 			//start game button
 			//activate Board.java
-			System.out.println("Monopoly is Awesome, game!");
+			new Board();
 		}
 		else if(e.getSource() == set) {
 			//settings for coding set 2
