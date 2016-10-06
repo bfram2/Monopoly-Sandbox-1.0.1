@@ -2,27 +2,31 @@
 //This is the main file
 /* Trademark of Hasboro and Parker Brothers */
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
 import pieces.*; //to import folders later
 import menu.*;
 //import events.*;
 //import cards.*;
 
-//later add implements ActionListener to class
-class MainMenu extends JFrame {
-JButton game; //start game button
-JButton set;  //adjust settings button
-JButton help; //help or user manual button
-JButton bear; //exit button
+import javax.swing.*;
+import java.awt.*;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
+
+class MainMenu extends JFrame implements ActionListener {
+JButton game, set, help, bear;
+
 	public MainMenu() {
 	setTitle("Monopoly");
-	setSize(744,744);
+	setSize(744,744); //window size
 	setLocationRelativeTo(null);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setVisible(true);
@@ -31,29 +35,65 @@ JButton bear; //exit button
 	JLabel background=new JLabel(new ImageIcon("src/menu/menuman.jpg"));
 	add(background);
 	background.setLayout(new FlowLayout());
-	game=new JButton(" Start New Game ");
-	set=new JButton(" Settings ");
-	help=new JButton(" Help ");
-	bear=new JButton(" Exit ");
-	game.setForeground(Color.WHITE); //font color
-	game.setBackground(new Color(73,175,47)); //button fill color
-	set.setForeground(Color.BLACK);
-	set.setBackground(Color.WHITE);
-	help.setForeground(Color.BLACK);
-	help.setBackground(Color.WHITE);
-	bear.setForeground(Color.WHITE);
+	//background.setOpaque(true);
+	
+	//style and location of buttons
+	game=new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>S</u>tart New Game</div>");
+	set=new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>S</u>ettings</div>");
+	help=new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>H</u>elp</div>");
+	bear=new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>E</u>xit</div>");
+	game.setBackground(new Color(73,175,47));
+	game.setVerticalAlignment(AbstractButton.CENTER);
+	set.setBackground(new Color (128,0,0));
+	help.setBackground(Color.BLACK);
 	bear.setBackground(new Color(244,31,31));
-	background.add(game); //inserting buttons
+	
+	//add listeners
+	game.addActionListener(this);
+	set.addActionListener(this);
+	help.addActionListener(this);
+	bear.addActionListener(this);
+	
+	//add button to jpanel
+	background.add(game);
 	background.add(set);
 	background.add(help);
 	background.add(bear);
 
-	// refreshes the page to make sure images have loaded
+	// refresh, DO NOT remove
 	setSize(744,744);
 	setSize(743,743);
+	
+	//debugging button locations
+	//System.out.println("getLocation: " + game.getLocation());
 	}
+	
+	public void actionPerformed(ActionEvent e)
+    {
+		if(e.getSource() == game) {
+			//start game button
+			//activate Board.java
+			System.out.println("Monopoly is Awesome, game!");
+		}
+		else if(e.getSource() == set) {
+			//settings for coding set 2
+			System.out.println("Monopoly is Awesome, settings!");
+		}
+		else if(e.getSource() == help) {
+			//settings for user guide
+			System.out.println("Monopoly is Awesome, help!");
+		}
+		else if(e.getSource() == bear) {
+			//close the program.. exit bear, stage left
+			dispose();
+            System.exit(0);
+		}
+		
+        //applies to all buttons for debugging
+    }
+	//main for Monopoly
 	public static void main(String args[]) {
-		new MainMenu();
-		//Add event listeners
+		new MainMenu(); //open menu page
+		
 		}
 }
