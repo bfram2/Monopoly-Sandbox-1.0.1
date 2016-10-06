@@ -2,13 +2,16 @@
 package pieces;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
-class Board extends JFrame {
+
+public class Board extends JFrame {
 	public Board() {
-	setTitle("Monopoly");
-	setSize(1024,750);
+	setTitle("Board");
+	setSize(1024,1044);
+	getContentPane();
 	setLocationRelativeTo(null);
+	//debugging size by content
+	//pack();
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setVisible(true);
 
@@ -17,8 +20,7 @@ class Board extends JFrame {
 	add(background);
 	background.setLayout(new FlowLayout());
 
-	// Just for refresh
-	setSize(1023,749);
-	setSize(1024,750);
+	// refresh to add JLabel
+	setSize(1023,1043);
 	}
 }
