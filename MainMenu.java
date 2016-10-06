@@ -28,11 +28,12 @@ JButton game, set, help, bear;
 
 	public MainMenu() {
 	setTitle("Monopoly");
-	setSize(744,744); //window size
+	setSize(743,743); //window size
 	setLocationRelativeTo(null);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setVisible(true);
-
+	//debugging size by content
+	//pack();
 	setLayout(new BorderLayout());
 	JLabel background=new JLabel(new ImageIcon("src/menu/menuman.jpg"));
 	add(background);
@@ -63,8 +64,8 @@ JButton game, set, help, bear;
 	background.add(bear);
 
 	// refresh, DO NOT remove
+	//setSize(744,744); redundancy
 	setSize(744,744);
-	setSize(743,743);
 	
 	//debugging button locations
 	//System.out.println("getLocation: " + game.getLocation());
@@ -74,7 +75,8 @@ JButton game, set, help, bear;
     {
 		if(e.getSource() == game) {
 			//start game button
-			//activate Board.java
+			//activate Board.java, close menu
+			dispose();
 			new Board();
 		}
 		else if(e.getSource() == set) {
