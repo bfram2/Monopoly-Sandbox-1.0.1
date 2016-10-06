@@ -1,5 +1,5 @@
 //Loading the Background image of the board
-
+package pieces;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
