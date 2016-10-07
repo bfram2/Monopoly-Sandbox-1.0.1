@@ -27,13 +27,13 @@ JButton game, set, help, bear;
 
 	public MainMenu() {
 	setTitle("Monopoly");
-	setSize(743,743); //window size
+	setSize(609,454); //window size
 	setLocationRelativeTo(null);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setVisible(true);
 	//pack();
 	setLayout(new BorderLayout());
-	JLabel background=new JLabel(new ImageIcon("src/menu/menuman.jpg"));
+	JLabel background=new JLabel(new ImageIcon("src/menu/menu.jpg"));
 	add(background);
 	background.setLayout(new FlowLayout());
 	//background.setOpaque(true);
@@ -62,7 +62,7 @@ JButton game, set, help, bear;
 	background.add(bear);
 
 	// refresh, DO NOT remove
-	setSize(744,744);
+	setSize(610,455);
 	}
 	
 	public void actionPerformed(ActionEvent e)
