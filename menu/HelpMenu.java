@@ -1,10 +1,14 @@
+package menu;
 //User Friendly summaried version of the User Manual
 
 /*
 depending on what move the player is on is which paragraph will appear as the main page,
 can still sift through clicking on titles and expanding to the descriptions
 */
-package menu;
+
+//The Main Menu for the game to start and to pick the players, type of game, citation, and help.
+/* Trademark of Hasboro and Parker Brothers */
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.JPanel;
@@ -20,7 +24,7 @@ public class HelpMenu extends JFrame implements ActionListener {
 
 	public HelpMenu() {
 		setTitle("User Guide");
-		setSize(743, 743); // window size
+		setSize(609, 743); // window size
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
@@ -49,7 +53,7 @@ public class HelpMenu extends JFrame implements ActionListener {
 		backt.setPreferredSize(new Dimension(40, 40));
 
 		// refresh, DO NOT remove
-		setSize(744, 744);
+		setSize(610, 744);
 	}
 
 	public void actionPerformed(ActionEvent e) {
