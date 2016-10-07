@@ -1,4 +1,15 @@
-/* Title Deed Cards */
+// Title Deed Cards
+/*
+Title Deed Colors
+Purple #44235A rgb(68,35,90)
+Baby Blue #C4C8E5 (196,200,229)
+Dark Pink #A72758 (167,39,88)
+Orange #F19749 (241,151,73)
+Red #E22835 (226,40,53)
+Yellow #F8F37B (248,243,123)
+Green #448364 (68,131,100)
+Blue #413382 (65,51,130)
+*/
 
 /* 
 Germania Inferior: Rent $2, With 1 Villa $10, With 2 Villas $30, With 3 Villas $90 With 4 Villas $160, with Pantheon $250, Mortgage Value $30, Houses cost $50 each, Hotels: $50 each plus 4 houses
