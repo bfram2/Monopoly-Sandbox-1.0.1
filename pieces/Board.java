@@ -29,6 +29,10 @@ public class Board extends JFrame {
 			System.out.println("x: "+x+" , y: "+y);
 		}
 	});
+		private void lblMapClick(MouseEvent e) {
+			double X = e.getX();
+			double Y = e.getY();
+			System.out.println("X: "+X+" Y: "+Y);
 	// refresh to add JLabel
 	setSize(1023,1043);
 	}
