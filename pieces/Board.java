@@ -19,6 +19,7 @@ public class Board extends JFrame {
 	JLabel background=new JLabel(new ImageIcon("src/pieces/board.jpg"));
 	add(background);
 	background.setLayout(new FlowLayout());
+		//find x and y to add tokens
 	background.addMouseListener(new MouseAdapter() {
 		
 	@Override
