@@ -30,26 +30,31 @@ public class Board extends JFrame implements ActionListener {
 	pack();
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setVisible(true);
+	setSize(1013,1036);
 	setLayout(new BorderLayout());
-	JPanel glassPanel = new JPanel(new GridLayout(0, 3));
+	JPanel front = new JPanel(new GridLayout(0, 2));
 	//JPanel glassPanel = new JPanel(new GridBagLayout());
-	glassPanel.setOpaque(false);
+	front.setOpaque(false);
 	JLabel background=new JLabel(new ImageIcon("src/pieces/board.jpg"));
 	add(background);
 	
-	background.setSize(1145,1045);
+	background.setSize(1000,1000);
 	background.setLayout(new FlowLayout());
 	rolling = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 50px 5px 50px;\"><u>R</u>oll</div>");
 	rolling.setBackground(new Color(73,175,47));
 	
-	rolling.addActionListener(this);
-	background.add(glassPanel);
-	background.add(rolling);
-	
-	
 	JLabel blank = new JLabel("<html><div style=\"color: white; padding: 250px 0 0 0;text-align:right;\"></div><br/>");
-	glassPanel.add(blank);
-    
+	JLabel paction = new JLabel("<html><div style=\"color: white; padding: 250px 0 0 0;text-align:right;\"></div><br/>");
+	
+	
+	rolling.addActionListener(this);
+	background.add(front);
+	background.add(rolling);
+	front.add(blank);
+	front.add(paction);
+	
+	
+	
 	//rolling.setVerticalTextPosition(AbstractButton.CENTER);
 	//rolling.setHorizontalTextPosition(AbstractButton.RIGHT);
 	
@@ -63,7 +68,7 @@ public class Board extends JFrame implements ActionListener {
 	});*/
 	
 	// refresh to add JLabel/JPanel
-	setSize(1146,1046);
+	setSize(1013,1037);
 	//background.add(rolling);
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -153,7 +158,7 @@ public class Board extends JFrame implements ActionListener {
 }
 
 /*
-Will change later. Initial pull with 1025, 1045 dimensions.
+Will change later. Initial pull.
 -1: 979, 881 (x,y) starting point on go
 0: 932, 881  Go
 1: 828, 881  Germania Inferior
