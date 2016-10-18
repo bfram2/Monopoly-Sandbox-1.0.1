@@ -1,5 +1,6 @@
 package pieces;
-//Loading the Background image of the board
+//Loading the board
+//fonts for board.jpg: Verdana 8pt, 6pt, 8pt bold
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
