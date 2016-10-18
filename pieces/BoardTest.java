@@ -118,8 +118,7 @@ public class Board extends JFrame implements ActionListener {
 	
 	// refresh image
 	setSize(1013,1037);
-	}
-	
+	} 
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == rolling) {
@@ -294,7 +293,7 @@ public class Board extends JFrame implements ActionListener {
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+ttbuy+", balance: "+Bal);
 				Bal -= ttbuy;
 			}
-			//tdmort or tdbuy minus players money total
+			//lock the item as bought and by which player
 			Players.balance = Bal;
 			System.out.println("Player's balance: "+Players.balance);
 		}
