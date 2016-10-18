@@ -69,8 +69,8 @@ public class Board extends JFrame implements ActionListener {
 		mmenu.setBackground(new Color(0, 0, 0));
 	
 	//dice animation
-	JLabel die1=new JLabel(new ImageIcon("src/pieces/Dice"+dice1+".png"));
-	JLabel die2=new JLabel(new ImageIcon("src/pieces/Dice"+dice2+".png"));
+	JLabel die1=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice1+".png"));
+	JLabel die2=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
 	add(die1);
 	add(die2);
 
