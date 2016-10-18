@@ -187,6 +187,7 @@ public class Board extends JFrame implements ActionListener {
 	       if (k == 1) {
 	    	   System.out.println("Doubles! Roll again.");
 	    	   rolling.setEnabled(true);
+			   ending.setEnabled(false);
 	       }
 	        if (k > 2 && k < 1) {
 	        	System.out.println("You have rolled doubles 3 times, Go to the Arena.");
