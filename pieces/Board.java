@@ -10,23 +10,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import menu.HelpMenu;
 import menu.MainMenu;
-
+import pieces.Dice;
+//import pieces.Money;
 
 public class Board extends JFrame implements ActionListener {
-	JButton rolling, buying, ending, mmenu, hmenu;
+	JButton rolling, buying, mortgage, ending, mmenu, hmenu;
 	int width = 1013;
 	int height = 1037;
 	//board spaces
-	Random dice = new Random();
 	int chPos = 0; //cards for build 2
 	int ccPos = 0;
 	int tdPos = 0;
 	int Pos = 0; //board positions
 	int k = 0; //doubles counter
 	int j = 0; //jail counter
+	Random dice = new Random();
+	int dice1 = 1; //the dice
+	int dice2 = 1;
+	
+	
 	public Board() {
 	setTitle("Board");
-	
 	getContentPane();
 	setLocationRelativeTo(null);
 	//debugging size by content
@@ -36,21 +40,23 @@ public class Board extends JFrame implements ActionListener {
 	setSize(1013,1036);
 	setLayout(new BorderLayout());
 	JPanel front = new JPanel();
-	//JPanel front = new JPanel(new GridLayout());
 	front.setOpaque(false);
-	//front.setSize(new Dimension(500, 500));
+	front.setPreferredSize(new Dimension(50, 400));
 	JLabel background=new JLabel(new ImageIcon("src/pieces/board.jpg"));
 	add(background);
 	
 	background.setSize(1000,1000);
-	background.setLayout(new GridLayout());
+	background.setLayout(new BorderLayout());
 	
 	//if not applicable grey out buttons, remember to add
-	rolling = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; border: none; font-size: 14pt; padding: 5px 20px 5px 20px;\"><u>R</u>oll Dice</div>");
+	rolling = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 20px 5px 20px;\"><u>R</u>oll Dice</div>");
 	rolling.setBackground(new Color(73,175,47));
 	
 	buying = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 20px 5px 20px;\"><u>B</u>uy Property</div>");
-	buying.setBackground(new Color(217, 217, 217));
+	buying.setBackground(new Color(71,71,255));
+	
+	mortgage = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 20px 5px 20px;\"><u>M</u>ortgage</div>");
+	mortgage.setBackground(new Color(247, 153, 22));
 	
 	ending = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 5px 5px 5px;\"><u>E</u>nd Turn</div>");
 	ending.setBackground(new Color(0, 0, 0));
@@ -61,11 +67,17 @@ public class Board extends JFrame implements ActionListener {
 	mmenu = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 0px 5px 0px 5px;\"><u>E</u>nd Game<br/><span style=\"font-size: 9pt\">Return to Main Menu</span></div>");
 	mmenu.setBackground(new Color(0, 0, 0));
 	
-	JLabel blank = new JLabel("<html><div style=\"color: white; padding: 250px 0 0 0; text-align:center;\"></div><br/>");
-	//JLabel paction = new JLabel("<html><br/><div style=\"color: black; border: 1px solid black; padding: 10px 50px 10px 150px; text-align:center;\">Paction</div><br/>");
+	JLabel blank = new JLabel("<html><br/><div style=\"color: white; border: none; padding: 0; width: 97px; text-align:center;\"></div><br/>");
+	JLabel paction = new JLabel("<html><br/><div style=\"color: black; border: none; padding: 0; width: 75px; text-align:center;\"></div><br/>");
+	
+	JLabel die1=new JLabel(new ImageIcon("src/pieces/Dice"+dice1+".png"));
+	JLabel die2=new JLabel(new ImageIcon("src/pieces/Dice"+dice2+".png"));
+	add(die1);
+	add(die2);
 	
 	rolling.addActionListener(this);
 	buying.addActionListener(this);
+	mortgage.addActionListener(this);
 	ending.addActionListener(this);
 	mmenu.addActionListener(this);
 	hmenu.addActionListener(this);
@@ -74,13 +86,14 @@ public class Board extends JFrame implements ActionListener {
 	front.add(blank);
 	front.add(rolling);
 	front.add(buying);
+	front.add(mortgage);
 	front.add(ending);
-	//front.add(paction);
+	front.add(paction);
 	front.add(hmenu);
 	front.add(mmenu);
+	front.add(die1);
+	front.add(die2);
 
-	//front.add(blank);
-	//front.add(paction);
 	
 	//debugging, finding x,y positions on the board for every click
     /*background.addMouseListener(new MouseAdapter() {
@@ -95,10 +108,15 @@ public class Board extends JFrame implements ActionListener {
 	setSize(1013,1037);
 	}
 	
+	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == rolling) {
 			//start game button
 			//activate Board.java, close menu
+			rolling.setEnabled(false);
+			buying.setEnabled(false);
+			mortgage.setEnabled(false);
+			ending.setEnabled(false);
 			Turn();
 		}
 		if(e.getSource() == hmenu) {
@@ -108,8 +126,11 @@ public class Board extends JFrame implements ActionListener {
 			dispose();
 			new MainMenu();
 		}
+		if(e.getSource()== ending){
+			//here it goes again
+			rolling.setEnabled(true);
+		}
     }
-
 
 		public void Turn() {
 			int samples = 1; //one turn per button, player one 
@@ -121,8 +142,9 @@ public class Board extends JFrame implements ActionListener {
 			int[] jail = new int[5];
 			int[] doubles = new int[4];
 			
-			int dice1 = dice.nextInt(6) + 1;
-	        int dice2 = dice.nextInt(6) + 1;
+			dice1 = dice.nextInt(6) + 1;
+	        dice2 = dice.nextInt(6) + 1;
+	        
 	      //remainder operators
 	        Pos = (Pos + dice1 + dice2) % 40;
 	        j = j % 4;
@@ -130,6 +152,7 @@ public class Board extends JFrame implements ActionListener {
 	       k = (dice1 == dice2) ? k + 1 : 0;
 	       if (k == 1) {
 	    	   System.out.println("Doubles! Roll again.");
+	    	   rolling.setEnabled(true);
 	       }
 	        if (k > 2 && k < 1) {
 	        	System.out.println("You have rolled doubles 3 times, Go to the Arena.");
@@ -180,6 +203,7 @@ public class Board extends JFrame implements ActionListener {
 	      board[Pos]++;
 	      jail[j]++;
 	      doubles[k]++;
+	      ending.setEnabled(true);
 	      System.out.println("-Dice 1: "+dice1+", Dice 2: "+dice2);
 	      System.out.println("-Move to position: "+Pos);
 	      System.out.println("-Jail Counter: "+j);
