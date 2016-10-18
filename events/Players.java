@@ -8,3 +8,28 @@
 //end turn button
 //Player 2, repeat onward
 /* Later may have multiple players with computer players */
+
+package events;
+//Switch between player and computer player
+
+public class Players {
+	private String name;
+	private String token;
+	private int position;
+	private int balance;
+	String player;
+
+	public Players() {
+        name = "Player";       //default name, update from menu
+        token = "Token_E.png"; //default image, update from menu
+        position = 0;          //update from Prev in Board
+        balance = 1500;        //update from Bal in Board
+        player = (name+token+position+balance);
+	}
+	public Players(String name, String token, int position, int balance) {
+	        this.name = name;
+	        this.token = token;
+	        this.position = position;
+	        this.balance = balance;
+	}
+}
