@@ -32,4 +32,16 @@ public class Players {
 	        this.position = position;
 	        this.balance = balance;
 	}
+	public String getName() {
+		return name;
+	}
+	public String getToken() {
+		return token;
+	}
+	public Integer getPosition() {
+		return position;
+	}
+	public Integer getBalance() {
+		return balance;
+	}
 }
