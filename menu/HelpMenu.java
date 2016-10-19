@@ -13,14 +13,13 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.JPanel;
 import java.awt.Dimension;
-import pieces.Board;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-
-import java.awt.event.ActionEvent;
+//import java.awt.event.ActionEvent;
 
 public class HelpMenu extends JFrame implements ActionListener {
+	private static final long serialVersionUID = 1L;
 
 	public HelpMenu() {
 		setTitle("User Guide");
