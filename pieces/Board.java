@@ -1,6 +1,5 @@
 package pieces;
-//Loading the board
-//fonts for board.jpg: Verdana 8pt, 6pt, 8pt bold
+//Loading the board [fonts for board.jpg: Verdana 8pt, 6pt, 8pt bold]
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -10,13 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import menu.HelpMenu;
 import menu.MainMenu;
-import pieces.Dice;
 import events.Players;
 
 public class Board extends JFrame implements ActionListener {
+	private static final long serialVersionUID = 1L;
+	
 	JButton rolling, buying, mortgage, ending, mmenu, hmenu;
-	int width = 1013;
-	int height = 1037;
+	Players thePlayer = new Players();
+	int width = 1013; //positions using x
+	int height = 1037; //positions using y
 	//board spaces
 	int chPos = 0; //cards for build 2
 	int ccPos = 0;
@@ -26,8 +27,8 @@ public class Board extends JFrame implements ActionListener {
 	int buymort = 0; //counter for buy or mortgage
 	int Pos = 0; //board positions
 	int money = 0;
-	int Prev = Players.position;
-	int Bal = Players.balance;
+	int Prev = thePlayer.getPosition();
+	int Bal = thePlayer.getBalance();
 	int k = 0; //doubles counter
 	int j = 0; //jail counter
 	Random dice = new Random();
@@ -39,8 +40,8 @@ public class Board extends JFrame implements ActionListener {
     String[] tdPlaces = {"Germania Inferior","Germania Superior","Alpes Poeniae","Alpes Cottiae","Aples Maritimae","Aquitania","Belgica","Raetia","Africa Proconsularis","Asia","Britannia","Cilicia","Galatia","Cappadocia","Aegyptus","Arabia Petraea","Syria","Macedonia","Epirus","Achaia","Sicilia","Italia","Sewers","Aqueducts","Via Appia","Via Flaminia","Via Aemilia","Via Popillia"};
 	
 	//token movement
-    int[] x = {951,818,740,662,581,498,413,336,253,180,35,125,130,130,130,130,130,130,130,130,86,181,263,343,421,501,581,662,741,820,928,874,874,874,874,874,874,874,874,874};
-    int[] y = {880,880,880,880,880,880,880,880,880,880,970,845,770,690,605,526,447,370,287,207,93,129,129,129,129,129,129,129,129,129,77,208,285,362,448,527,608,687,766,848};
+    int[] x = {880,818,740,662,581,498,413,336,253,180,35,125,130,130,130,130,130,130,130,130,86,181,263,343,421,501,581,662,741,820,928,874,874,874,874,874,874,874,874,874};
+    int[] y = {860,880,880,880,880,880,880,880,880,880,970,845,770,690,605,526,447,370,287,207,93,129,129,129,129,129,129,129,129,129,77,208,285,362,448,527,608,687,766,848};
     
 	public Board() {
 	setTitle("Board");
@@ -54,7 +55,8 @@ public class Board extends JFrame implements ActionListener {
 	setLayout(new BorderLayout());
 	JPanel front = new JPanel();
 	front.setOpaque(false);
-	front.setPreferredSize(new Dimension(50, 400));
+	JPanel spaces = new JPanel();
+	spaces.setOpaque(false);
 	JLabel background=new JLabel(new ImageIcon("src/pieces/board.jpg"));
 	add(background);
 	
@@ -80,7 +82,7 @@ public class Board extends JFrame implements ActionListener {
 	//dice animation
 	JLabel die1=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice1+".png"));
 	JLabel die2=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
-	JLabel token1=new JLabel(new ImageIcon("src/pieces/images/"+Players.token));
+	JLabel token1=new JLabel(new ImageIcon("src/pieces/images/"+thePlayer.getToken()));
 	add(die1);
 	add(die2);
 	add(token1);
@@ -92,8 +94,10 @@ public class Board extends JFrame implements ActionListener {
 	mmenu.addActionListener(this);
 	hmenu.addActionListener(this);
 	
-	background.add(front, BorderLayout.SOUTH);
+	background.add(front);
+	background.add(spaces);
 	front.setBounds(240, 540, 525, 400);
+	spaces.setBounds(x[Pos],y[Pos], 100, 130);
 	
 	front.add(rolling);
 	front.add(buying);
@@ -104,7 +108,7 @@ public class Board extends JFrame implements ActionListener {
 	front.add(blank);
 	front.add(die1);
 	front.add(die2);
-	front.add(token1);
+	spaces.add(token1);
 
 	rolling.setEnabled(true);
 	buying.setEnabled(false);
@@ -112,18 +116,18 @@ public class Board extends JFrame implements ActionListener {
 	ending.setEnabled(false);
 	
 	//debugging, finding x,y positions on the board for every click
-	/*
+	
     background.addMouseListener(new MouseAdapter() {
 	public void mouseClicked(MouseEvent e) {
 			System.out.println("x: "+e.getX()+", y: "+e.getY());
 			return;
 		}
-	}); */
-	
+	});
 	
 	// refresh image
 	setSize(1013,1037);
-	} 
+	}
+
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == rolling) {
@@ -211,6 +215,7 @@ public class Board extends JFrame implements ActionListener {
 	    	  if (Pos == 1) {
 	    		  buying.setEnabled(true);
 	    		  mortgage.setEnabled(true);
+	    		  ending.setEnabled(true);
 	    		  titledeed = 0; //Germania Inferior
 	    	  }
 	    	  if (Pos == 3) {titledeed = 1;}   //Germania Superior
@@ -271,16 +276,19 @@ public class Board extends JFrame implements ActionListener {
 		  if(titledeed != 0) {
 			buying.setEnabled(true);
 	    	mortgage.setEnabled(true);
+	    	ending.setEnabled(true);
 		  }
 	      jail[j]++;
 	      doubles[k]++;
 	      tdBuy[titledeed]++;
+	      x[Pos]++;
+	      y[Pos]++;
 		  Bal -= money;
-		  Players.balance = Bal;
+		  thePlayer.setBalance(Bal);
 		  System.out.println("-Move to position: "+board[Pos]);
 	      System.out.println("-Dice 1: "+dice1+", Dice 2: "+dice2);
 	      System.out.println("-Jail Counter: "+j+", Doubles counter: "+k);
-		  System.out.println("Player's balance: "+Players.balance);
+		  System.out.println("Player's balance: "+thePlayer.getBalance());
 		}
 	}
 		public void Buy() {
@@ -298,8 +306,8 @@ public class Board extends JFrame implements ActionListener {
 				Bal -= ttbuy;
 			}
 			//lock the item as bought and by which player
-			Players.balance = Bal;
-			System.out.println("Player's balance: "+Players.balance);
+			thePlayer.setBalance(Bal);
+			System.out.println("Player's balance: "+thePlayer.getBalance());
 		}
 }
 
@@ -393,27 +401,27 @@ board array (Pos)
 
 Buy array (titledeed)
 0:  Germania Inferior ($60, $30 mortgaged)
-1:	Germania Superior ($60, $30 mortgaged)
-2:	Alpes Poeniae ($100, $50 mortgaged)
-3:	Alpes Cottiae ($100, $50 mortgaged)
-4:	Aples Maritimae ($120, $60 mortgaged)
-5:	Aquitania ($140, $70 mortgaged)
-6:	Belgica ($140, $70 mortgaged)
-7:	Raetia ($160, $80 mortgaged)
-8:	Africa Proconsularis ($180, $90 mortgaged)
-9:	Asia ($180, $90 mortgaged)
-10:	Britannia ($200, $100 mortgaged)
-11:	Cilicia ($220, $110 mortgaged)
-12:	Galatia ($220, $110 mortgaged)
-13:	Cappadocia ($240, $120 mortgaged)
-14:	Aegyptus ($260, $130 mortgaged)
-15:	Arabia Petraea ($260, $130 mortgaged)
-16:	Syria ($280, $140 mortgaged)
-17:	Macedonia ($300, $150 mortgaged)
-18:	Epirus ($300, $150 mortgaged)
-19:	Achaia ($320, $160 mortgaged)
-20:	Sicilia ($350, $175 mortgaged)
-21:	Italia ($400, $200 mortgaged)
+1: Germania Superior ($60, $30 mortgaged)
+2: Alpes Poeniae ($100, $50 mortgaged)
+3: Alpes Cottiae ($100, $50 mortgaged)
+4: Aples Maritimae ($120, $60 mortgaged)
+5: Aquitania ($140, $70 mortgaged)
+6: Belgica ($140, $70 mortgaged)
+7: Raetia ($160, $80 mortgaged)
+8: Africa Proconsularis ($180, $90 mortgaged)
+9: Asia ($180, $90 mortgaged)
+10: Britannia ($200, $100 mortgaged)
+11: Cilicia ($220, $110 mortgaged)
+12: Galatia ($220, $110 mortgaged)
+13: Cappadocia ($240, $120 mortgaged)
+14: Aegyptus ($260, $130 mortgaged)
+15: Arabia Petraea ($260, $130 mortgaged)
+16: Syria ($280, $140 mortgaged)
+17: Macedonia ($300, $150 mortgaged)
+18: Epirus ($300, $150 mortgaged)
+19: Achaia ($320, $160 mortgaged)
+20: Sicilia ($350, $175 mortgaged)
+21: Italia ($400, $200 mortgaged)
 22: Sewers ($150 buy, $75 mortgaged)
 23: Aqueducts
 24: Via Appia ($200 buy, $100 mortgaged)
