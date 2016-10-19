@@ -1,6 +1,5 @@
 package pieces;
-//Loading the board
-//fonts for board.jpg: Verdana 8pt, 6pt, 8pt bold
+//Loading the Background image of the board
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -50,7 +49,8 @@ public class Board extends JFrame implements ActionListener {
 	add(background);
 	
 	background.setSize(1000,1000);
-	background.setLayout(new BorderLayout());
+	//background.setLayout(new BorderLayout());
+	background.setLayout(null);
 	
 	//if not applicable grey out buttons, remember to add
 	rolling = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 20px 5px 20px;\"><u>R</u>oll Dice</div>");
@@ -59,8 +59,8 @@ public class Board extends JFrame implements ActionListener {
 	ending = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 5px 5px 5px;\"><u>E</u>nd Turn</div>");
 	hmenu = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 5px 5px 5px;\"><u>H</u>elp Menu</div>");
 	mmenu = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 0px 5px 0px 5px;\"><u>E</u>nd Game<br/><span style=\"font-size: 9pt\">Return to Main Menu</span></div>");
-	JLabel blank = new JLabel("<html><br/><div style=\"color: white; border: none; padding: 0; width: 97px; text-align:center;\"></div><br/>");
-	JLabel paction = new JLabel("<html><br/><div style=\"color: black; border: none; padding: 0; width: 75px; text-align:center;\"></div><br/>");
+	JLabel blank = new JLabel("<html><br/><div style=\"color: white; border: none; padding: 0; width: 110px; height: 50px; text-align:center;\"></div><br/>");
+	//JLabel paction = new JLabel("<html><br/><div style=\"color: black; border: none; padding: 0; width: 100px; text-align:center;\"></div><br/>");
 		rolling.setBackground(new Color(73,175,47));
 		buying.setBackground(new Color(71,71,255));
 		mortgage.setBackground(new Color(247, 153, 22));
@@ -82,14 +82,15 @@ public class Board extends JFrame implements ActionListener {
 	hmenu.addActionListener(this);
 	
 	background.add(front, BorderLayout.SOUTH);
-	front.add(blank);
+	front.setBounds(240, 540, 550, 400);
+	//front.add(blank);
 	front.add(rolling);
 	front.add(buying);
 	front.add(mortgage);
 	front.add(ending);
-	front.add(paction);
 	front.add(hmenu);
 	front.add(mmenu);
+	front.add(blank);
 	front.add(die1);
 	front.add(die2);
 
@@ -103,6 +104,12 @@ public class Board extends JFrame implements ActionListener {
 		}
 	}); */
 	
+	rolling.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+	    front.revalidate();
+	    //die2.setIcon(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
+	    }
+	});
 	
 	// refresh image
 	setSize(1013,1037);
@@ -118,6 +125,7 @@ public class Board extends JFrame implements ActionListener {
 			mortgage.setEnabled(false);
 			ending.setEnabled(false);
 			Turn();
+			//front.revalidate();
 		}
 		if(e.getSource() == buying) {
 			//start game button
