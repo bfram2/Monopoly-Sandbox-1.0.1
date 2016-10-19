@@ -8,7 +8,6 @@
 //end turn button
 //Player 2, repeat onward
 /* Later may have multiple players with computer players */
-
 package events;
 //Switch between player and computer player
 
@@ -26,22 +25,23 @@ public class Players {
         balance = 1500;        //update from Bal in Board
         player = (name+token+position+balance);
 	}
+	
 	public Players(String name, String token, int position, int balance) {
 	        this.name = name;
 	        this.token = token;
 	        this.position = position;
 	        this.balance = balance;
 	}
-	public String getName() {
-		return name;
-	}
-	public String getToken() {
-		return token;
-	}
-	public Integer getPosition() {
-		return position;
-	}
-	public Integer getBalance() {
-		return balance;
-	}
+	
+	public String getName() {return name;}
+	public void setName(String name) {this.name = name;}
+	
+	public String getToken() {return token;}
+	public void setToken(String token) {this.token = token;}
+	
+	public int getPosition() {return position;}
+	public void setPosition(int position) {this.position = position;}
+	
+	public int getBalance() {return balance;}
+	public void setBalance(int balance) {this.balance = balance;}
 }
