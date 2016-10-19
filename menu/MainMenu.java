@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 
 
 public class MainMenu extends JFrame implements ActionListener {
+private static final long serialVersionUID = 1L;
 JButton game, set, help, bear;
 
 	public MainMenu() {
