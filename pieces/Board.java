@@ -280,14 +280,13 @@ public class Board extends JFrame implements ActionListener {
 		  }
 	      jail[j]++;
 	      doubles[k]++;
-	      tdBuy[titledeed]++;
+	      //tdBuy[titledeed]++;
 	      x[Pos]++;
 	      y[Pos]++;
 		  Bal -= money;
 		  thePlayer.setPosition(Pos);
 		  thePlayer.setBalance(Bal);
-		  System.out.println("-Move to position: "+board[Pos]);
-	      System.out.println("-Dice 1: "+dice1+", Dice 2: "+dice2);
+		  System.out.println("-Space: "+board[Pos]+", Dice 1: "+dice1+", Dice 2: "+dice2);
 	      System.out.println("-Jail Counter: "+j+", Doubles counter: "+k);
 		  System.out.println("Player's balance: "+thePlayer.getBalance());
 		}
@@ -300,10 +299,10 @@ public class Board extends JFrame implements ActionListener {
 			if (ttbuy != 0 && buymort == 1) {
 				tdmort = (ttbuy/2);
 				Bal -= tdmort;
-				System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+tdmort+", balance: "+Bal);
+				System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+Bal+" - "+tdmort);
 				}
 			if(buymort == 0) {
-				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+ttbuy+", balance: "+Bal);
+				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+Bal+" - "+ttbuy);
 				Bal -= ttbuy;
 			}
 			//lock the item as bought and by which player
@@ -402,8 +401,8 @@ board array (Pos)
 
 Buy array (titledeed)
 0:  Germania Inferior ($60, $30 mortgaged)
-1: Germania Superior ($60, $30 mortgaged)
-2: Alpes Poeniae ($100, $50 mortgaged)
+1:	Germania Superior ($60, $30 mortgaged)
+2:	Alpes Poeniae ($100, $50 mortgaged)
 3:	Alpes Cottiae ($100, $50 mortgaged)
 4:	Aples Maritimae ($120, $60 mortgaged)
 5:	Aquitania ($140, $70 mortgaged)
@@ -421,8 +420,8 @@ Buy array (titledeed)
 17:	Macedonia ($300, $150 mortgaged)
 18:	Epirus ($300, $150 mortgaged)
 19:	Achaia ($320, $160 mortgaged)
-20: Sicilia ($350, $175 mortgaged)
-21: Italia ($400, $200 mortgaged)
+20:	Sicilia ($350, $175 mortgaged)
+21:	Italia ($400, $200 mortgaged)
 22: Sewers ($150 buy, $75 mortgaged)
 23: Aqueducts
 24: Via Appia ($200 buy, $100 mortgaged)
