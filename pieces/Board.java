@@ -1,5 +1,6 @@
 package pieces;
-//Loading the Background image of the board
+//Loading the board
+//fonts for board.jpg: Verdana 8pt, 6pt, 8pt bold
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -21,17 +22,26 @@ public class Board extends JFrame implements ActionListener {
 	int ccPos = 0;
 	int tdPos = 0;
 	int titledeed = 0; //buy picks
-	int[] tdeed = new int[27];
+	//int[] tdeed = new int[27];
 	int buymort = 0; //counter for buy or mortgage
 	int Pos = 0; //board positions
-	int Prev = 0;
+	int money = 0;
+	int Prev = Players.position;
+	int Bal = Players.balance;
 	int k = 0; //doubles counter
 	int j = 0; //jail counter
 	Random dice = new Random();
 	int dice1 = 1; //the dice
 	int dice2 = 1;
 	
+	//buying or mortgaging properties
+	int[] tdBuy = {60,60,100,100,120,140,140,160,180,180,200,220,220,240,260,260,280,300,300,320,350,400,150,150,200,200,200,200};
+    String[] tdPlaces = {"Germania Inferior","Germania Superior","Alpes Poeniae","Alpes Cottiae","Aples Maritimae","Aquitania","Belgica","Raetia","Africa Proconsularis","Asia","Britannia","Cilicia","Galatia","Cappadocia","Aegyptus","Arabia Petraea","Syria","Macedonia","Epirus","Achaia","Sicilia","Italia","Sewers","Aqueducts","Via Appia","Via Flaminia","Via Aemilia","Via Popillia"};
 	
+	//token movement
+    int[] x = {951,818,740,662,581,498,413,336,253,180,35,125,130,130,130,130,130,130,130,130,86,181,263,343,421,501,581,662,741,820,928,874,874,874,874,874,874,874,874,874};
+    int[] y = {880,880,880,880,880,880,880,880,880,880,970,845,770,690,605,526,447,370,287,207,93,129,129,129,129,129,129,129,129,129,77,208,285,362,448,527,608,687,766,848};
+    
 	public Board() {
 	setTitle("Board");
 	getContentPane();
@@ -49,7 +59,6 @@ public class Board extends JFrame implements ActionListener {
 	add(background);
 	
 	background.setSize(1000,1000);
-	//background.setLayout(new BorderLayout());
 	background.setLayout(null);
 	
 	//if not applicable grey out buttons, remember to add
@@ -59,20 +68,22 @@ public class Board extends JFrame implements ActionListener {
 	ending = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 5px 5px 5px;\"><u>E</u>nd Turn</div>");
 	hmenu = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 5px 5px 5px;\"><u>H</u>elp Menu</div>");
 	mmenu = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 0px 5px 0px 5px;\"><u>E</u>nd Game<br/><span style=\"font-size: 9pt\">Return to Main Menu</span></div>");
-	JLabel blank = new JLabel("<html><br/><div style=\"color: white; border: none; padding: 0; width: 110px; height: 50px; text-align:center;\"></div><br/>");
-	//JLabel paction = new JLabel("<html><br/><div style=\"color: black; border: none; padding: 0; width: 100px; text-align:center;\"></div><br/>");
+	JLabel blank = new JLabel("<html><br/><div style=\"color: white; border: none; padding: 0; width: 100px; height: 50px;\"></div><br/>");
+	//JLabel paction = new JLabel("<html><br/><div style=\"color: black; border: none; padding: 0; width: 100px; height: 50px; text-align:center;\"></div><br/>");
 		rolling.setBackground(new Color(73,175,47));
 		buying.setBackground(new Color(71,71,255));
 		mortgage.setBackground(new Color(247, 153, 22));
 		ending.setBackground(new Color(0, 0, 0));
 		hmenu.setBackground(new Color(0, 0, 0));
 		mmenu.setBackground(new Color(0, 0, 0));
-	
+
 	//dice animation
 	JLabel die1=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice1+".png"));
 	JLabel die2=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
+	JLabel token1=new JLabel(new ImageIcon("src/pieces/images/"+Players.token));
 	add(die1);
 	add(die2);
+	add(token1);
 
 	rolling.addActionListener(this);
 	buying.addActionListener(this);
@@ -82,8 +93,8 @@ public class Board extends JFrame implements ActionListener {
 	hmenu.addActionListener(this);
 	
 	background.add(front, BorderLayout.SOUTH);
-	front.setBounds(240, 540, 550, 400);
-	//front.add(blank);
+	front.setBounds(240, 540, 525, 400);
+	
 	front.add(rolling);
 	front.add(buying);
 	front.add(mortgage);
@@ -93,7 +104,12 @@ public class Board extends JFrame implements ActionListener {
 	front.add(blank);
 	front.add(die1);
 	front.add(die2);
+	front.add(token1);
 
+	rolling.setEnabled(true);
+	buying.setEnabled(false);
+	mortgage.setEnabled(false);
+	ending.setEnabled(false);
 	
 	//debugging, finding x,y positions on the board for every click
 	/*
@@ -104,17 +120,10 @@ public class Board extends JFrame implements ActionListener {
 		}
 	}); */
 	
-	rolling.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent e) {
-	    front.revalidate();
-	    //die2.setIcon(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
-	    }
-	});
 	
 	// refresh image
 	setSize(1013,1037);
-	}
-	
+	} 
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == rolling) {
@@ -125,7 +134,6 @@ public class Board extends JFrame implements ActionListener {
 			mortgage.setEnabled(false);
 			ending.setEnabled(false);
 			Turn();
-			//front.revalidate();
 		}
 		if(e.getSource() == buying) {
 			//start game button
@@ -166,7 +174,7 @@ public class Board extends JFrame implements ActionListener {
 			for (int i = 0; i < samples; i++) {
 			//loop until end of max turns  
 			//array for spaces on the board
-			int[] board = new int[40];
+			String[] board = {"Go", "Germania Inferior", "Community Chest", "Germania Superior", "Render unto Caesar", "Via Appia", "Alpes Poeniae", "Chance", "Alpes Cottiae", "Alpes Maritimae", "See a battle", "Arena", "Aquitania", "Sewers", "Belgice", "Raetia", "Via Flaminia", "Africa Proconsularis", "Community Chest", "Asia", "Britannia", "Free Market", "Cilicia", "Chance", "Galatia", "Cappadocia", "Via Aemilia", "Aegyptus", "Arabia Petraea", "Aqueducts", "Syria", "Go to the Arena", "Macedonia", "Epirus", "Community Chest", "Achaia", "Via Popillia", "Chance", "Sicilia", "Citizens Tax", "Italia"};
 			int[] jail = new int[5];
 			int[] doubles = new int[4];
 			
@@ -184,6 +192,7 @@ public class Board extends JFrame implements ActionListener {
 	       if (k == 1) {
 	    	   System.out.println("Doubles! Roll again.");
 	    	   rolling.setEnabled(true);
+			   ending.setEnabled(false);
 	       }
 	        if (k > 2 && k < 1) {
 	        	System.out.println("You have rolled doubles 3 times, Go to the Arena.");
@@ -196,57 +205,53 @@ public class Board extends JFrame implements ActionListener {
 	        //checking the spaces token as moved to
 	      if (j == 0) {
 	    	  if (Pos == 0) {
-	    		  System.out.println("Pass Rome, Collect 200.");
+	    		  System.out.println("Pass Rome, Collect 200."); //receive
+				  money = -200;
 	    	  }
 	    	  if (Pos == 1) {
-	    		  System.out.println("Buy/Mortgage: Germania Inferior");
 	    		  buying.setEnabled(true);
 	    		  mortgage.setEnabled(true);
-	    		  titledeed = 0;
+	    		  titledeed = 0; //Germania Inferior
 	    	  }
-	    	  if (Pos == 3) {
-	    		  System.out.println("Buy/Mortgage: Germania Superior");
-	    		  buying.setEnabled(true);
-	    		  mortgage.setEnabled(true);
-	    		  titledeed = 1;
-	    	  }
-	    	  if (Pos == 6) {
-	    		  System.out.println("Buy/Mortgage: Belgica");
-	    		  buying.setEnabled(true);
-	    		  mortgage.setEnabled(true);
-	    		  titledeed = 6;
-	    	  }
+	    	  if (Pos == 3) {titledeed = 1;}   //Germania Superior
+	    	  if (Pos == 6) {titledeed = 2;}   //Alpes Poeniae
+			  if (Pos == 8) {titledeed = 3;}   //Alpes Cottiae
+			  if (Pos == 9) {titledeed = 4;}   //Alpes Maritimae
+			  if (Pos == 12) {titledeed = 5;}  //Aquitania
+			  if (Pos == 14) {titledeed = 6;}  //Belgica
+			  if (Pos == 15) {titledeed = 7;}  //Raetia
+			  if (Pos == 17) {titledeed = 8;}  //Africa Proconsularis
+			  if (Pos == 19) {titledeed = 9;}  //Asia
+			  if (Pos == 20) {titledeed = 10;} //Britannia
+			  if (Pos == 22) {titledeed = 11;} //Cilicia
+			  if (Pos == 24) {titledeed = 12;} //Galatia
+			  if (Pos == 25) {titledeed = 13;} //Cappadocia
+			  if (Pos == 27) {titledeed = 14;} //Aegyptus
+			  if (Pos == 28) {titledeed = 15;} //Arabia Petraea
+			  if (Pos == 30) {titledeed = 16;} //Syria
+			  if (Pos == 32) {titledeed = 17;} //Macedonia
+			  if (Pos == 33) {titledeed = 18;} //Epirus
+			  if (Pos == 35) {titledeed = 19;} //Achaia
+			  if (Pos == 38) {titledeed = 20;} //Sicilia
+			  if (Pos == 40) {titledeed = 21;} //Italia
+			  
+			  if(Pos == 21) {ending.setEnabled(true);} //free market
 	    	  if (Pos == 4 || Pos == 39) {
-	    		  System.out.println("Taxes");
-	    		  //pay
+				money = 100;
+	    		System.out.println("Taxes"); //pay, expand later
 	    	  }
 	    	  if (Pos == 5 || Pos == 16 || Pos == 26 || Pos == 36) {
-	    		//Via (Roads)
-	    		  System.out.println("Buy/Mortgage: Via (Road)");
-	    		  buying.setEnabled(true);
-	    		  mortgage.setEnabled(true);
-	    		  titledeed = 24;
-	    	  }
-	    	  if (Pos == 7 || Pos == 22 || Pos == 36) {
-	    		  System.out.println("Randomly draw a chance card.");
-	    		  //chance is build 2
-	    		  ending.setEnabled(true);
-	    	  }
-	    	  if (Pos == 2 || Pos == 17 || Pos == 33) {
-	    		  System.out.println("Randomly draw a community chest card.");
-	    		  //community chest is build 2
-	    		  ending.setEnabled(true);
-	    	  }
-	    	  if (Pos == 10) {
-	    		  Pos = 11;
-	    		  System.out.println("Rolled a 10. ");
-	    	  }
+				  titledeed = 24; //Via, expand later
+			  }
+	    	  if (Pos == 7 || Pos == 23 || Pos == 37) {ending.setEnabled(true);} //chance
+	    	  if (Pos == 2 || Pos == 18 || Pos == 34) {ending.setEnabled(true);} //chest
+			  if (Pos == 13 || Pos == 29) {titledeed = 22;} //Utilities, expand later
+	    	  if (Pos == 10) {Pos = 11;} //keep from losing 1 when going past Arena
 	    	  if (Pos == 11 && j == 0) {
-	    		  //see a battle
-	    		  System.out.println("See a battle.");
+	    		  System.out.println("See a battle."); //see a battle
 	    		  ending.setEnabled(true);
 	    	  }
-	    	  if (Pos == 30) {
+	    	  if (Pos == 31) {
 	    		  System.out.println("Go to the Arena.");
 	    		  Pos = 11;
 	    		  j = 1;
@@ -254,54 +259,47 @@ public class Board extends JFrame implements ActionListener {
 	        }
 	      if(j > 0 && j < 4) {
 	    	Pos = 11;
-		    System.out.println("You are still in jail. Turns until free: "+(4-j)); //stay in jail for three turns or j=3
+		    System.out.println("You are still in the Arena. Turns until free: "+(4-j)); //stay in jail for three turns or j=3
 		    j++;
 		    ending.setEnabled(true);
 	      }
 	      if (j > 3) {
 	    	  System.out.println("Pay 50.");
+			  money = 50;
 	    	  ending.setEnabled(true);
 	      }
-	      board[Pos]++;
+		  if(titledeed != 0) {
+			buying.setEnabled(true);
+	    	mortgage.setEnabled(true);
+		  }
 	      jail[j]++;
 	      doubles[k]++;
-	      tdeed[titledeed]++;
-	      //ending.setEnabled(true);
+	      tdBuy[titledeed]++;
+		  Bal -= money;
+		  Players.balance = Bal;
+		  System.out.println("-Move to position: "+board[Pos]);
 	      System.out.println("-Dice 1: "+dice1+", Dice 2: "+dice2);
-	      System.out.println("-Move to position: "+Pos);
-	      System.out.println("-Jail Counter: "+j);
-	      System.out.println("-Doubles counter: "+k);
+	      System.out.println("-Jail Counter: "+j+", Doubles counter: "+k);
+		  System.out.println("Player's balance: "+Players.balance);
 		}
 	}
 		public void Buy() {
-			int tdbuy = 0;
+			int ttbuy = 0;
 			int tdmort = 0;
-			if (titledeed == 0 || titledeed == 1) {tdbuy = 60;}
-			if (titledeed == 2 || titledeed == 3) {tdbuy = 100;}
-			if (titledeed == 4) {tdbuy = 120;}
-			if (titledeed == 5 || titledeed == 6) {tdbuy = 140;}
-			if (titledeed == 7) {tdbuy = 160;}
-			if (titledeed == 8 || titledeed == 9) {tdbuy = 180;}
-			if (titledeed == 10) {tdbuy = 200;}
-			if (titledeed == 11 || titledeed == 12) {tdbuy = 220;}
-			if (titledeed == 13) {tdbuy = 240;}
-			if (titledeed == 14 || titledeed == 15) {tdbuy = 260;}
-			if (titledeed == 16) {tdbuy = 280;}
-			if (titledeed == 17 || titledeed == 18) {tdbuy = 300;}
-			if (titledeed == 19) {tdbuy = 320;}
-			if (titledeed == 20) {tdbuy = 350;}
-			if (titledeed == 21) {tdbuy = 400;}
-			if (titledeed == 22 || titledeed == 23) {tdbuy = 150;}
-			if (titledeed > 23) {tdbuy = 200;}
+			ttbuy = tdBuy[titledeed];
 			//set mortgage
-			if (tdbuy != 0 && buymort == 1) {
-				tdmort = (tdbuy/2);
-				System.out.println("-Place: "+titledeed+", Mortgage: "+tdmort);
+			if (ttbuy != 0 && buymort == 1) {
+				tdmort = (ttbuy/2);
+				Bal -= tdmort;
+				System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+tdmort+", balance: "+Bal);
 				}
 			if(buymort == 0) {
-				System.out.println("-Place: "+titledeed+", Pay: "+tdbuy);
+				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+ttbuy+", balance: "+Bal);
+				Bal -= ttbuy;
 			}
-			//tdmort or tdbuy minus players money total
+			//lock the item as bought and by which player
+			Players.balance = Bal;
+			System.out.println("Player's balance: "+Players.balance);
 		}
 }
 
@@ -309,48 +307,48 @@ public class Board extends JFrame implements ActionListener {
 
 /*
 Token positions
-x: 951, y: 929
-x: 818, y: 875
-x: 740, y: 876
-x: 662, y: 876
+x: 951, y: 880
+x: 818, y: 880
+x: 740, y: 880
+x: 662, y: 880
 x: 581, y: 880
 x: 498, y: 880
-x: 413, y: 878
+x: 413, y: 880
 x: 336, y: 880
 x: 253, y: 880
-x: 180, y: 879
+x: 180, y: 880
 x: 35, y: 970
 x: 125, y: 845
-x: 126, y: 770
+x: 130, y: 770
 x: 130, y: 690
-x: 126, y: 605
-x: 127, y: 526
-x: 126, y: 447
-x: 125, y: 370
-x: 125, y: 287
-x: 126, y: 207
+x: 130, y: 605
+x: 130, y: 526
+x: 130, y: 447
+x: 130, y: 370
+x: 130, y: 287
+x: 130, y: 207
 x: 86, y: 93
 x: 181, y: 129
-x: 263, y: 126
-x: 343, y: 124
-x: 421, y: 124
-x: 501, y: 125
-x: 581, y: 125
-x: 662, y: 126
-x: 741, y: 127
-x: 820, y: 128
+x: 263, y: 129
+x: 343, y: 129
+x: 421, y: 129
+x: 501, y: 129
+x: 581, y: 129
+x: 662, y: 129
+x: 741, y: 129
+x: 820, y: 129
 x: 928, y: 77
-x: 870, y: 208
-x: 872, y: 285
-x: 872, y: 362
-x: 868, y: 448
-x: 873, y: 527
-x: 870, y: 608
-x: 869, y: 687
-x: 875, y: 766
+x: 874, y: 208
+x: 874, y: 285
+x: 874, y: 362
+x: 874, y: 448
+x: 874, y: 527
+x: 874, y: 608
+x: 874, y: 687
+x: 874, y: 766
 x: 874, y: 848
 
-board array
+board array (Pos)
 0: Go
 1: Germania Inferior
 2: Community Chest
@@ -393,32 +391,32 @@ board array
 39: Citizen's Tax
 40: Italia
 
-/* Buy array
-0:  Mediterranean Avenue = Germania Inferior ($60, $30 mortgaged)
-1:	Baltic Avenue = Germania Superior ($60, $30 mortgaged)
-2:	Oriental Avenue = Alpes Poeniae ($100, $50 mortgaged)
-3:	Vermont Avenue = Alpes Cottiae ($100, $50 mortgaged)
-4:	Connecticut Avenue = Aples Maritimae ($120, $60 mortgaged)
-5:	St. Charles Place = Aquitania ($140, $70 mortgaged)
-6:	States Avenue = Belgica ($140, $70 mortgaged)
-7:	Virginia Avenue = Raetia ($160, $80 mortgaged)
-8:	St. James Place = Africa Proconsularis ($180, $90 mortgaged)
-9:	Tennessee Avenue = Asia ($180, $90 mortgaged)
-10:	New York Avenue = Britannia ($200, $100 mortgaged)
-11:	Kentucky Avenue = Cilicia ($220, $110 mortgaged)
-12:	Indiana Avenue = Galatia ($220, $110 mortgaged)
-13:	Illinois Avenue = Cappadocia ($240, $120 mortgaged)
-14:	Atlantic Avenue = Aegyptus ($260, $130 mortgaged)
-15:	Ventnor Avenue = Arabia Petraea ($260, $130 mortgaged)
-16:	Marvin Gardens = Syria ($280, $140 mortgaged)
-17:	Pacific Avenue = Macedonia ($300, $150 mortgaged)
-18:	North Carolina Avenue = Epirus ($300, $150 mortgaged)
-19:	Pennsylvania Avenue = Achaia ($320, $160 mortgaged)
-20:	Park Place = Sicilia ($350, $175 mortgaged)
-21:	Boardwalk = Italia ($400, $200 mortgaged)
-22: Sewers $150 buy, $75 mortgaged
+Buy array (titledeed)
+0:  Germania Inferior ($60, $30 mortgaged)
+1:	Germania Superior ($60, $30 mortgaged)
+2:	Alpes Poeniae ($100, $50 mortgaged)
+3:	Alpes Cottiae ($100, $50 mortgaged)
+4:	Aples Maritimae ($120, $60 mortgaged)
+5:	Aquitania ($140, $70 mortgaged)
+6:	Belgica ($140, $70 mortgaged)
+7:	Raetia ($160, $80 mortgaged)
+8:	Africa Proconsularis ($180, $90 mortgaged)
+9:	Asia ($180, $90 mortgaged)
+10:	Britannia ($200, $100 mortgaged)
+11:	Cilicia ($220, $110 mortgaged)
+12:	Galatia ($220, $110 mortgaged)
+13:	Cappadocia ($240, $120 mortgaged)
+14:	Aegyptus ($260, $130 mortgaged)
+15:	Arabia Petraea ($260, $130 mortgaged)
+16:	Syria ($280, $140 mortgaged)
+17:	Macedonia ($300, $150 mortgaged)
+18:	Epirus ($300, $150 mortgaged)
+19:	Achaia ($320, $160 mortgaged)
+20:	Sicilia ($350, $175 mortgaged)
+21:	Italia ($400, $200 mortgaged)
+22: Sewers ($150 buy, $75 mortgaged)
 23: Aqueducts
-24: Via Appia $200 buy, $100 mortgaged
+24: Via Appia ($200 buy, $100 mortgaged)
 25: Via Flaminia
 26: Via Aemilia
 27: Via Popillia
