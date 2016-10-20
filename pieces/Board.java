@@ -14,10 +14,9 @@ import events.Players;
 public class Board extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
-	JButton rolling, buying, mortgage, ending, mmenu, hmenu;
+	JButton rolling, buying, mortgage, ending, mmenu, hmenu, spaces;
 	Players thePlayer = new Players();
-	int width = 1013; //positions using x
-	int height = 1037; //positions using y
+	
 	//board spaces
 	int chPos = 0; //cards for build 2
 	int ccPos = 0;
@@ -32,8 +31,8 @@ public class Board extends JFrame implements ActionListener {
 	int k = 0; //doubles counter
 	int j = 0; //jail counter
 	Random dice = new Random();
-	int dice1 = 1; //the dice
-	int dice2 = 1;
+	int dice1 = 0; //the dice
+	int dice2 = 0;
 	
 	//buying or mortgaging properties
 	int[] tdBuy = {60,60,100,100,120,140,140,160,180,180,200,220,220,240,260,260,280,300,300,320,350,400,150,150,200,200,200,200};
@@ -42,6 +41,7 @@ public class Board extends JFrame implements ActionListener {
 	//token movement
     int[] x = {880,818,740,662,581,498,413,336,253,180,35,125,130,130,130,130,130,130,130,130,86,181,263,343,421,501,581,662,741,820,928,874,874,874,874,874,874,874,874,874};
     int[] y = {860,880,880,880,880,880,880,880,880,880,970,845,770,690,605,526,447,370,287,207,93,129,129,129,129,129,129,129,129,129,77,208,285,362,448,527,608,687,766,848};
+    
     
 	public Board() {
 	setTitle("Board");
@@ -52,11 +52,10 @@ public class Board extends JFrame implements ActionListener {
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setVisible(true);
 	setSize(1013,1036);
+	setResizable(false);
 	setLayout(new BorderLayout());
 	JPanel front = new JPanel();
 	front.setOpaque(false);
-	JPanel spaces = new JPanel();
-	spaces.setOpaque(false);
 	JLabel background=new JLabel(new ImageIcon("src/pieces/board.jpg"));
 	add(background);
 	
@@ -82,10 +81,11 @@ public class Board extends JFrame implements ActionListener {
 	//dice animation
 	JLabel die1=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice1+".png"));
 	JLabel die2=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
-	JLabel token1=new JLabel(new ImageIcon("src/pieces/images/"+thePlayer.getToken()));
-	add(die1);
-	add(die2);
-	add(token1);
+	JLabel token1 = new JLabel(new ImageIcon("src/pieces/images/"+thePlayer.getToken()));
+	
+	spaces = new JButton();
+	spaces.setOpaque(false);
+	spaces.setFocusPainted(false);
 
 	rolling.addActionListener(this);
 	buying.addActionListener(this);
@@ -93,6 +93,7 @@ public class Board extends JFrame implements ActionListener {
 	ending.addActionListener(this);
 	mmenu.addActionListener(this);
 	hmenu.addActionListener(this);
+	spaces.addActionListener(this);
 	
 	background.add(front);
 	background.add(spaces);
@@ -114,9 +115,9 @@ public class Board extends JFrame implements ActionListener {
 	buying.setEnabled(false);
 	mortgage.setEnabled(false);
 	ending.setEnabled(false);
+	spaces.setEnabled(false);
 	
 	//debugging, finding x,y positions on the board for every click
-	
     background.addMouseListener(new MouseAdapter() {
 	public void mouseClicked(MouseEvent e) {
 			System.out.println("x: "+e.getX()+", y: "+e.getY());
@@ -127,7 +128,6 @@ public class Board extends JFrame implements ActionListener {
 	// refresh image
 	setSize(1013,1037);
 	}
-
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == rolling) {
@@ -138,6 +138,7 @@ public class Board extends JFrame implements ActionListener {
 			mortgage.setEnabled(false);
 			ending.setEnabled(false);
 			Turn();
+			spaces.setBounds(x[Pos],y[Pos], 100, 130); //move based on Position on the board
 		}
 		if(e.getSource() == buying) {
 			//start game button
@@ -184,20 +185,21 @@ public class Board extends JFrame implements ActionListener {
 			
 			dice1 = dice.nextInt(6) + 1;
 	        dice2 = dice.nextInt(6) + 1;
-	        
-	      //remainder operators
-	       System.out.println("Previous Position: "+Prev);
+	        repaint();
+	        //remainder operators
+	        //System.out.println("Previous Position: "+Prev);
 	        Pos = (Prev + dice1 + dice2) % 40;
 	        Prev = Pos;
+	        
 	        //System.out.println("Previous Position: "+Prev); //debugging
 	        j = j % 4;
 	        //for build 2
-	       k = (dice1 == dice2) ? k + 1 : 0;
-	       if (k == 1) {
+	        k = (dice1 == dice2) ? k + 1 : 0;
+	        if (k == 1) {
 	    	   System.out.println("Doubles! Roll again.");
 	    	   rolling.setEnabled(true);
 			   ending.setEnabled(false);
-	       }
+	        }
 	        if (k > 2 && k < 1) {
 	        	System.out.println("You have rolled doubles 3 times, Go to the Arena.");
 	        	//go to the arena
@@ -207,7 +209,7 @@ public class Board extends JFrame implements ActionListener {
 	        }
 	        
 	        //checking the spaces token as moved to
-	      if (j == 0) {
+	       if (j == 0) {
 	    	  if (Pos == 0) {
 	    		  System.out.println("Pass Rome, Collect 200."); //receive
 				  money = -200;
@@ -280,7 +282,6 @@ public class Board extends JFrame implements ActionListener {
 		  }
 	      jail[j]++;
 	      doubles[k]++;
-	      //tdBuy[titledeed]++;
 	      x[Pos]++;
 	      y[Pos]++;
 		  Bal -= money;
@@ -300,7 +301,7 @@ public class Board extends JFrame implements ActionListener {
 				tdmort = (ttbuy/2);
 				Bal -= tdmort;
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+Bal+" - "+tdmort);
-				}
+			}
 			if(buymort == 0) {
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+Bal+" - "+ttbuy);
 				Bal -= ttbuy;
@@ -310,7 +311,6 @@ public class Board extends JFrame implements ActionListener {
 			System.out.println("Player's balance: "+thePlayer.getBalance());
 		}
 }
-
 
 
 /*
