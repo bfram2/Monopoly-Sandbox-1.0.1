@@ -45,8 +45,8 @@ public class Board extends JFrame implements ActionListener {
     String[] tdPlaces = {"Germania Inferior","Germania Superior","Alpes Poeniae","Alpes Cottiae","Aples Maritimae","Aquitania","Belgica","Raetia","Africa Proconsularis","Asia","Britannia","Cilicia","Galatia","Cappadocia","Aegyptus","Arabia Petraea","Syria","Macedonia","Epirus","Achaia","Sicilia","Italia","Sewers","Aqueducts","Via Appia","Via Flaminia","Via Aemilia","Via Popillia"};
 	
 	//token movement
-    int[] x = {880,818,740,662,581,498,413,336,253,180,35,125,130,130,130,130,130,130,130,130,86,181,263,343,421,501,581,662,741,820,928,874,874,874,874,874,874,874,874,874};
-    int[] y = {860,880,880,880,880,880,880,880,880,880,970,845,770,690,605,526,447,370,287,207,93,129,129,129,129,129,129,129,129,129,77,208,285,362,448,527,608,687,766,848};
+    int[] x = {862,781,702,620,542,462,383,302,223,143,1,52,81,81,81,81,81,81,81,81,81,18,142,222,301,382,463,542,621,701,781,861,861,861,300,383,461,860,621,701,781};
+    int[] y = {861,861,861,861,861,861,861,861,861,861,861,861,780,700,620,541,462,382,302,221,142,18,34,34,34,34,34,34,34,34,34,18,141,222,222,222,222,222,222,222,222};
     
     
 	public Board() {
