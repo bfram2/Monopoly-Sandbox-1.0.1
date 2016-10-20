@@ -2,8 +2,9 @@ package pieces;
 //Loading the board [fonts for board.jpg: Verdana 8pt, 6pt, 8pt bold]
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+//debugging tokens
+//import java.awt.event.MouseAdapter;
+//import java.awt.event.MouseEvent;
 import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,9 @@ public class Board extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	JButton rolling, buying, mortgage, ending, mmenu, hmenu, spaces;
-	Players thePlayer = new Players();
+	final JButton dicez;
+	final JButton dice2thereckoning;
+	Players thePlayer = new Players(); //build 2, gaggle of Players[]
 	
 	//board spaces
 	int chPos = 0; //cards for build 2
@@ -30,8 +33,11 @@ public class Board extends JFrame implements ActionListener {
 	int Bal = thePlayer.getBalance();
 	int k = 0; //doubles counter
 	int j = 0; //jail counter
-	Random dice = new Random();
-	int dice1 = 0; //the dice
+	int g = 0; //pass go counter
+	Random chancez = new Random(); //build 2
+	Random chestz = new Random();
+	Random dice = new Random(); //the dice
+	int dice1 = 0;
 	int dice2 = 0;
 	
 	//buying or mortgaging properties
@@ -78,14 +84,15 @@ public class Board extends JFrame implements ActionListener {
 		hmenu.setBackground(new Color(0, 0, 0));
 		mmenu.setBackground(new Color(0, 0, 0));
 
-	//dice animation
+	//dice animation	
 	JLabel die1=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice1+".png"));
 	JLabel die2=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
 	JLabel token1 = new JLabel(new ImageIcon("src/pieces/images/"+thePlayer.getToken()));
 	
+	dicez = new JButton();
+	dice2thereckoning = new JButton();
 	spaces = new JButton();
-	spaces.setOpaque(false);
-	spaces.setFocusPainted(false);
+	
 
 	rolling.addActionListener(this);
 	buying.addActionListener(this);
@@ -97,8 +104,15 @@ public class Board extends JFrame implements ActionListener {
 	
 	background.add(front);
 	background.add(spaces);
+	background.add(dicez);
+	background.add(dice2thereckoning);
 	front.setBounds(240, 540, 525, 400);
+	spaces.setBorder(null);
+	dicez.setBorder(null);
+	dice2thereckoning.setBorder(null);
 	spaces.setBounds(x[Pos],y[Pos], 100, 130); //move based on Position on the board
+	dicez.setBounds(400, 200, 100, 100);
+	dice2thereckoning.setBounds(500, 200, 100, 100);
 	
 	front.add(rolling);
 	front.add(buying);
@@ -110,20 +124,33 @@ public class Board extends JFrame implements ActionListener {
 	front.add(die1);
 	front.add(die2);
 	spaces.add(token1);
+	dicez.add(die1);
+	dice2thereckoning.add(die2);
+	
+	//nope totally not buttons
+	dicez.setOpaque(false);
+	dice2thereckoning.setOpaque(false);
+	spaces.setOpaque(false);
+	spaces.setFocusPainted(false);
+	dicez.setFocusPainted(false);
+	dicez.setContentAreaFilled(false);
+	dice2thereckoning.setContentAreaFilled(false);
 
 	rolling.setEnabled(true);
 	buying.setEnabled(false);
 	mortgage.setEnabled(false);
 	ending.setEnabled(false);
-	spaces.setEnabled(false);
+	spaces.setEnabled(false); //lock forever
+	dicez.setEnabled(false);  //whatever you do, don't free it, but it makes the dice light grey
+	dice2thereckoning.setEnabled(false); //oh no the sequel is never as good as the first
 	
 	//debugging, finding x,y positions on the board for every click
-    background.addMouseListener(new MouseAdapter() {
+    /*background.addMouseListener(new MouseAdapter() {
 	public void mouseClicked(MouseEvent e) {
 			System.out.println("x: "+e.getX()+", y: "+e.getY());
 			return;
 		}
-	});
+	});*/
 	
 	// refresh image
 	setSize(1013,1037);
@@ -138,7 +165,9 @@ public class Board extends JFrame implements ActionListener {
 			mortgage.setEnabled(false);
 			ending.setEnabled(false);
 			Turn();
-			spaces.setBounds(x[Pos],y[Pos], 100, 130); //move based on Position on the board
+			dicez.setIcon(new ImageIcon("src/pieces/images/Dice"+dice1+".png")); //refresh img dice
+			dice2thereckoning.setIcon(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
+			spaces.setBounds(x[Pos], y[Pos], 100, 130); //move based on Position on the board
 		}
 		if(e.getSource() == buying) {
 			//start game button
@@ -176,6 +205,7 @@ public class Board extends JFrame implements ActionListener {
 		public void Turn() {
 			int samples = 1; //one turn per button, player one only right now
 		    //int doubles = 0;
+			
 			for (int i = 0; i < samples; i++) {
 			//loop until end of max turns  
 			//array for spaces on the board
@@ -185,11 +215,10 @@ public class Board extends JFrame implements ActionListener {
 			
 			dice1 = dice.nextInt(6) + 1;
 	        dice2 = dice.nextInt(6) + 1;
-	        repaint();
+
 	        //remainder operators
 	        //System.out.println("Previous Position: "+Prev);
 	        Pos = (Prev + dice1 + dice2) % 40;
-	        Prev = Pos;
 	        
 	        //System.out.println("Previous Position: "+Prev); //debugging
 	        j = j % 4;
@@ -210,6 +239,13 @@ public class Board extends JFrame implements ActionListener {
 	        
 	        //checking the spaces token as moved to
 	       if (j == 0) {
+	    	  if (Pos != 0) {
+			    if ((Prev > Pos) && (g == 0)) {
+			    System.out.println("Pass Rome, Collect 200."); //receive
+			    System.out.println("Prev:"+Prev+", Pos: "+Pos);
+				money = -200;
+			    }
+		      }
 	    	  if (Pos == 0) {
 	    		  System.out.println("Pass Rome, Collect 200."); //receive
 				  money = -200;
@@ -262,6 +298,7 @@ public class Board extends JFrame implements ActionListener {
 	    		  System.out.println("Go to the Arena.");
 	    		  Pos = 11;
 	    		  j = 1;
+	    		  g = 1;
 	    	  }
 	        }
 	      if(j > 0 && j < 4) {
@@ -273,6 +310,7 @@ public class Board extends JFrame implements ActionListener {
 	      if (j > 3) {
 	    	  System.out.println("Pay 50.");
 			  money = 50;
+			  g = 0;
 	    	  ending.setEnabled(true);
 	      }
 		  if(titledeed != 0) {
@@ -285,6 +323,8 @@ public class Board extends JFrame implements ActionListener {
 	      x[Pos]++;
 	      y[Pos]++;
 		  Bal -= money;
+		  money = 0;
+		  Prev = Pos;
 		  thePlayer.setPosition(Pos);
 		  thePlayer.setBalance(Bal);
 		  System.out.println("-Space: "+board[Pos]+", Dice 1: "+dice1+", Dice 2: "+dice2);
