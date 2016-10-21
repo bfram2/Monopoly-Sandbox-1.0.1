@@ -45,7 +45,7 @@ public class Board extends JFrame implements ActionListener {
 	
 	//buying or mortgaging properties
 	int[] tdBuy = {60,60,100,100,120,140,140,160,180,180,200,220,220,240,260,260,280,300,300,320,350,400,150,150,200,200,200,200};
-    String[] tdPlaces = {"Germania Inferior","Germania Superior","Alpes Poeniae","Alpes Cottiae","Aples Maritimae","Aquitania","Belgica","Raetia","Africa Proconsularis","Asia","Britannia","Cilicia","Galatia","Cappadocia","Aegyptus","Arabia Petraea","Syria","Macedonia","Epirus","Achaia","Sicilia","Italia","Sewers","Aqueducts","Via Appia","Via Flaminia","Via Aemilia","Via Popillia"};
+    String[] tdPlaces = {"Germania Inferior","Germania Superior","Alpes Poeniae","Alpes Cottiae","Aples Maritimae","Aquitania","Belgica","Raetia","Africa Proconsularis","Asia","Britannia","Cilicia","Galatia","Cappadocia","Aegyptus","Arabia Petraea","Syria","Macedonia","Epirus","Achaia","Sicilia","Italia","Sewers","Aqueducts","Via Appia","Via Flaminia","Via Aemilia","Via Popillia",""};
 	
 	String[] tdimages = {"Purple_GermaniaI","Purple_GermaniaS","BBlue_APoeniae","BBlue_ACottiae","BBlue_AMaritimae","DPink_Aquitania","DPink_Belgica","DPink_Raetia","Orange_AProconsularis","Orange_Asia","Orange_Britannia","Red_Cilicia","Red_Galatia","Red_Cappadocia","Yellow_Aegyptus","Yellow_APetraea","Yellow_Syria","Green_Macedonia","Green_Epirus","Green_Achaia","Blue_Sicilia", "Blue_Italia","Utility_Sewers","Utility_Aqueducts","Via_Appia","Via_Flaminia","Via_Aemilia","Via_Popillia",""};
     
@@ -227,7 +227,7 @@ public class Board extends JFrame implements ActionListener {
 			//array for spaces on the board
 			String[] board = {"Go", "Germania Inferior", "Community Chest", "Germania Superior", "Render unto Caesar", "Via Appia", "Alpes Poeniae", "Chance", "Alpes Cottiae", "Alpes Maritimae", "See a battle", "Arena", "Aquitania", "Sewers", "Belgica", "Raetia", "Via Flaminia", "Africa Proconsularis", "Community Chest", "Asia", "Britannia", "Free Market", "Cilicia", "Chance", "Galatia", "Cappadocia", "Via Aemilia", "Aegyptus", "Arabia Petraea", "Aqueducts", "Syria", "Go to the Arena", "Macedonia", "Epirus", "Community Chest", "Achaia", "Via Popillia", "Chance", "Sicilia", "Citizens Tax", "Italia"};
 			int[] jail = new int[5];
-			int[] doubles = new int[4]; //errors when doubles are over 3, fix
+			int[] doubles = new int[5]; //errors when doubles are over 3, fix
 			dice1 = dice.nextInt(6) + 1;
 	        dice2 = dice.nextInt(6) + 1;
 	        
@@ -271,49 +271,57 @@ public class Board extends JFrame implements ActionListener {
 	    		  titledeed = 0; //Germania Inferior
 	    	  }
 	    	  if (Pos == 3) {titledeed = 1;}   //Germania Superior
+			  if (Pos == 4) {
+				money = 200;
+				System.out.println("Render unto Caesar"); //pay
+	    		tdplimg = 28;
+	    		ending.setEnabled(true);
+			  }
+			  if (Pos == 5) {titledeed = 24;}  //Via Appia
 	    	  if (Pos == 6) {titledeed = 2;}   //Alpes Poeniae
 			  if (Pos == 8) {titledeed = 3;}   //Alpes Cottiae
 			  if (Pos == 9) {titledeed = 4;}   //Alpes Maritimae
 			  if (Pos == 12) {titledeed = 5;}  //Aquitania
+			  if (Pos == 13) {titledeed = 22;} //Sewers
 			  if (Pos == 14) {titledeed = 6;}  //Belgica
 			  if (Pos == 15) {titledeed = 7;}  //Raetia
+			  if (Pos == 16) {titledeed = 25;} //Via Flaminia
 			  if (Pos == 17) {titledeed = 8;}  //Africa Proconsularis
 			  if (Pos == 19) {titledeed = 9;}  //Asia
 			  if (Pos == 20) {titledeed = 10;} //Britannia
-			  if (Pos == 22) {titledeed = 11;} //Cilicia
-			  if (Pos == 24) {titledeed = 12;} //Galatia
-			  if (Pos == 25) {titledeed = 13;} //Cappadocia
-			  if (Pos == 27) {titledeed = 14;} //Aegyptus
-			  if (Pos == 28) {titledeed = 15;} //Arabia Petraea
-			  if (Pos == 30) {titledeed = 16;} //Syria
-			  if (Pos == 32) {titledeed = 17;} //Macedonia
-			  if (Pos == 33) {titledeed = 18;} //Epirus
-			  if (Pos == 35) {titledeed = 19;} //Achaia
-			  if (Pos == 38) {titledeed = 20;} //Sicilia
-			  if (Pos == 40) {titledeed = 21;} //Italia
-			  
 			  if(Pos == 21) {
 				  ending.setEnabled(true);
 				  tdplimg = 28;
 			  } //free market
-	    	  if (Pos == 4 || Pos == 39) {
+			  if (Pos == 22) {titledeed = 11;} //Cilicia
+			  if (Pos == 24) {titledeed = 12;} //Galatia
+			  if (Pos == 25) {titledeed = 13;} //Cappadocia
+			  if (Pos == 26) {titledeed = 26;} //Via Aemilia
+			  if (Pos == 27) {titledeed = 14;} //Aegyptus
+			  if (Pos == 28) {titledeed = 15;} //Arabia Petraea
+			  if (Pos == 29) {titledeed = 23;} //aqueducts
+			  if (Pos == 30) {titledeed = 16;} //Syria
+			  if (Pos == 31) {
+	    		  System.out.println("Go to the Arena.");
+	    		  Pos = 11;
+	    		  j = 1;
+	    		  g = 1;
+	    		  tdplimg = 28;
+				  ending.setEnabled(true);
+	    	  }
+			  if (Pos == 32) {titledeed = 17;} //Macedonia
+			  if (Pos == 33) {titledeed = 18;} //Epirus
+			  if (Pos == 35) {titledeed = 19;} //Achaia
+			  if (Pos == 38) {titledeed = 20;} //Sicilia
+			  if (Pos == 39) {
 				money = 100;
-	    		System.out.println("Taxes"); //pay, expand later
+	    		System.out.println("Citizen's Tax"); //pay
 	    		tdplimg = 28;
 	    		ending.setEnabled(true);
 	    	  }
-	    	  if (Pos == 5) {
-	    		  titledeed = 24;
-	    	  }
-	    	  if (Pos == 16) {
-	    		  titledeed = 25;
-	    	  } //Via Appia
-	    	  if (Pos == 26) {
-	    		  titledeed = 26;
-	    	  }
-	    	  if (Pos == 36) {
-	    		  titledeed = 27;
-	    	  }
+			  if (Pos == 40) {titledeed = 21;} //Italia
+	    	  
+	    	  if (Pos == 36) {titledeed = 27;} //Via Popillia
 	    	  if (Pos == 7 || Pos == 23 || Pos == 37) {
 	    		  tdplimg = 28;
 	    		  ending.setEnabled(true);
@@ -323,26 +331,17 @@ public class Board extends JFrame implements ActionListener {
 	    	  if (Pos == 2 || Pos == 18 || Pos == 34) {
 	    		  tdplimg = 28;
 	    		  ending.setEnabled(true);
+				  cchests = chestz.nextInt(16) + 1;
+				  //CommunityChest(); //build 2
 	    		  } //chest
-	    	  if (Pos == 13) {titledeed = 22;} //sewers
-	    	  if (Pos == 29) {titledeed = 23;} //aqueducts
 	    	  if (Pos == 10) {
 	    		  tdplimg = 28;
 	    		  ending.setEnabled(true);
-				  cchests = chestz.nextInt(16) + 1;
-				  //CommunityChest(); //build 2
 	    		  } //greater than 10 add one, due to Arena
 	    	  if (Pos == 11 && j == 0) {
 	    		  System.out.println("See a battle."); //see a battle
 	    		  ending.setEnabled(true);
 				  Pos = 10;
-	    		  tdplimg = 28;
-	    	  }
-	    	  if (Pos == 31) {
-	    		  System.out.println("Go to the Arena.");
-	    		  Pos = 11;
-	    		  j = 1;
-	    		  g = 1;
 	    		  tdplimg = 28;
 	    	  }
 	        }
