@@ -186,6 +186,7 @@ public class Board extends JFrame implements ActionListener {
 			tdbtn.setIcon(new ImageIcon("src/cards/images/"+tdimages[tdplimg]+".PNG"));
 		}
 		if(e.getSource() == buying) {
+			if (money > buymort) {
 			//buy property
 			rolling.setEnabled(false);
 			buying.setEnabled(false);
@@ -193,6 +194,9 @@ public class Board extends JFrame implements ActionListener {
 			ending.setEnabled(true);
 			buymort = 0;
 			Buy();
+			} else {
+				
+			}
 		}
 		if(e.getSource() == mortgage) {
 			//mortgage property
@@ -399,14 +403,21 @@ public class Board extends JFrame implements ActionListener {
 			int tdmort = 0;
 			ttbuy = tdBuy[titledeed];
 			//set mortgage
-			if (ttbuy != 0 && buymort == 1) {
+			if (ttbuy < Bal) {
+			 if (ttbuy != 0 && buymort == 1) {
 				tdmort = (ttbuy/2);
 				Bal -= tdmort;
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+Bal+" - "+tdmort);
+			 }
 			}
-			if(buymort == 0) {
+			if (ttbuy < Bal) {
+			 if(buymort == 0) {
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+Bal+" - "+ttbuy);
 				Bal -= ttbuy;
+			 }
+			}
+			if (ttbuy > Bal || tdmort > Bal) {
+			System.out.println("-Place: "+tdPlaces[titledeed]+", Player balance is less than buy/mortgage cost: "+Bal);
 			}
 			//lock the item as bought and by which player
 			thePlayer.setBalance(Bal);
