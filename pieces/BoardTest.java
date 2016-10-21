@@ -96,7 +96,6 @@ public class Board extends JFrame implements ActionListener {
 	spaces = new JButton();
 	tdbtn = new JButton();
 	
-
 	rolling.addActionListener(this);
 	buying.addActionListener(this);
 	mortgage.addActionListener(this);
@@ -396,6 +395,16 @@ public class Board extends JFrame implements ActionListener {
 	      System.out.println("-Jail Counter: "+j+", Doubles counter: "+k);
 		  System.out.println("Player's balance: "+thePlayer.getBalance());
 		  //System.out.println("x: "+x[Pos]+", y:"+y[Pos]); //debugging
+		  
+		  if (Bal == 0) {
+			System.out.println("Game over.");
+			rolling.setEnabled(false);
+			buying.setEnabled(false);
+			mortgage.setEnabled(false);
+			ending.setEnabled(false);
+			mmenu.setEnabled(true);
+			hmenu.setEnabled(false);
+		  }
 		}
 	}
 		public void Buy() {
@@ -409,13 +418,13 @@ public class Board extends JFrame implements ActionListener {
 				Bal -= tdmort;
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+Bal+" - "+tdmort);
 			 }
-			}
+			} //balance cannot be lower than property
 			if (ttbuy < Bal) {
 			 if(buymort == 0) {
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+Bal+" - "+ttbuy);
 				Bal -= ttbuy;
 			 }
-			}
+			} //balance cannot be lower than property
 			if (ttbuy > Bal || tdmort > Bal) {
 			System.out.println("-Place: "+tdPlaces[titledeed]+", Player balance is less than buy/mortgage cost: "+Bal);
 			}
