@@ -404,7 +404,7 @@ public class Board extends JFrame implements ActionListener {
 			ending.setEnabled(false);
 			mmenu.setEnabled(true);
 			hmenu.setEnabled(false);
-		  } //end game at end of rol if balance is zero
+		  } //end game at end of roll if balance is zero
 		}
 	}
 		public void Buy() {
