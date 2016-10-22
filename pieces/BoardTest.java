@@ -186,6 +186,12 @@ public class Board extends JFrame implements ActionListener {
 			spaces.setBounds(x[Pos], y[Pos], 70, 77); //move based on Position on the board
 			}*/
 			tdbtn.setIcon(new ImageIcon("src/cards/images/"+tdimages[tdplimg]+".PNG"));
+			if (Bal < (ttbuy/2)) {
+				mortgage.setEnabled(false);
+			}
+			if (Bal < ttbuy) {
+				buying.setEnabled(false);
+			}
 		}
 		if(e.getSource() == buying) {
 			if (Bal > ttbuy) {
@@ -198,8 +204,9 @@ public class Board extends JFrame implements ActionListener {
 			Buy();
 			} else {
 			buying.setEnabled(false);
-			mortgage.setEnabled(false);	
-			}
+			mortgage.setEnabled(false);
+			System.out.println("You do not have enough money to purchase this property.");
+			} //backup if able to get around rolling
 		}
 		if(e.getSource() == mortgage) {
 			if (Bal > (ttbuy/2)) {
@@ -210,7 +217,11 @@ public class Board extends JFrame implements ActionListener {
 			ending.setEnabled(true);
 			buymort = 1;
 			Buy();
-			}
+			} else {
+			buying.setEnabled(false);
+			mortgage.setEnabled(false);
+			System.out.println("You do not have enough money to mortgage this property.");
+			} //backup if able to get around rolling
 		}
 		if(e.getSource() == hmenu) {
 			//user guide
