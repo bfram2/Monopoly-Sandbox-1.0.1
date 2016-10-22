@@ -39,6 +39,8 @@ public class Board extends JFrame implements ActionListener {
 	int g = 0; //pass go counter
 	Random chancez = new Random(); //build 2
 	Random chestz = new Random();
+	int chacard = 0;
+	int checard = 0;
 	Random dice = new Random(); //the dice
 	int dice1 = 0;
 	int dice2 = 0;
@@ -328,13 +330,15 @@ public class Board extends JFrame implements ActionListener {
 	    	  if (Pos == 7 || Pos == 23 || Pos == 37) {
 	    		  tdplimg = 28;
 	    		  ending.setEnabled(true);
-				  chances = chancez.nextInt(16) + 1;
+				  chacard = chancez.nextInt(16) + 1;
+				  System.out.println("Draw a Chance Card: "+chacard);
 				  //Chance(); //build 2
 	    		  } //chance
 	    	  if (Pos == 2 || Pos == 18 || Pos == 34) {
 	    		  tdplimg = 28;
 	    		  ending.setEnabled(true);
-				  cchests = chestz.nextInt(16) + 1;
+	    		  checard = chestz.nextInt(16) + 1;
+	    		  System.out.println("Draw a Chest Card: "+checard);
 				  //CommunityChest(); //build 2
 	    		  } //chest
 	    	  if (Pos == 10) {
@@ -433,80 +437,3 @@ public class Board extends JFrame implements ActionListener {
 			System.out.println("Player's balance: "+thePlayer.getBalance());
 		}
 }
-
-
-/*
-board array (Pos)
-0: Go
-1: Germania Inferior
-2: Community Chest
-3: Germania Superior
-4: Render unto Caesar
-5: Via Appia
-6: Alpes Poeniae
-7: Chance
-8: Alpes Cottiae
-9: Alpes Maritimae
-10: See a battle
-11: Arena
-12: Aquitania
-13: Sewers
-14: Belgice
-15: Raetia
-16: Via Flaminia
-17: Africa Proconsularis
-18: Community Chest
-19: Asia
-20: Britannia
-21: Free Market
-22: Cilicia
-23: Chance
-24: Galatia
-25: Cappadocia
-26: Via Aemilia
-27: Aegyptus
-28: Arabia Petraea
-29: Aqueducts
-30: Syria
-31: Go to the Arena
-32: Macedonia
-33: Epirus
-34: Community Chest
-35: Achaia
-36: Via Popillia
-37: Chance
-38: Sicilia
-39: Citizen's Tax
-40: Italia
-
-Buy array (titledeed)
-0:  Germania Inferior ($60, $30 mortgaged)
-1:	Germania Superior ($60, $30 mortgaged)
-2:	Alpes Poeniae ($100, $50 mortgaged)
-3:	Alpes Cottiae ($100, $50 mortgaged)
-4:	Aples Maritimae ($120, $60 mortgaged)
-5:	Aquitania ($140, $70 mortgaged)
-6:	Belgica ($140, $70 mortgaged)
-7:	Raetia ($160, $80 mortgaged)
-8:	Africa Proconsularis ($180, $90 mortgaged)
-9:	Asia ($180, $90 mortgaged)
-10:	Britannia ($200, $100 mortgaged)
-11:	Cilicia ($220, $110 mortgaged)
-12:	Galatia ($220, $110 mortgaged)
-13:	Cappadocia ($240, $120 mortgaged)
-14:	Aegyptus ($260, $130 mortgaged)
-15:	Arabia Petraea ($260, $130 mortgaged)
-16:	Syria ($280, $140 mortgaged)
-17:	Macedonia ($300, $150 mortgaged)
-18:	Epirus ($300, $150 mortgaged)
-19:	Achaia ($320, $160 mortgaged)
-20:	Sicilia ($350, $175 mortgaged)
-21:	Italia ($400, $200 mortgaged)
-22: Sewers ($150 buy, $75 mortgaged)
-23: Aqueducts
-24: Via Appia ($200 buy, $100 mortgaged)
-25: Via Flaminia
-26: Via Aemilia
-27: Via Popillia
-*/
-
