@@ -1,6 +1,5 @@
 package pieces;
 //Loading the board [fonts for board.jpg: Verdana 8pt, 6pt, 8pt bold]
-//position vs titledeed cards need to be fixed
 import javax.swing.*;
 import java.awt.*;
 //debugging tokens
