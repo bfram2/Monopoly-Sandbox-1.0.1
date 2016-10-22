@@ -146,15 +146,15 @@ public class Board extends JFrame implements ActionListener {
 	spaces.setContentAreaFilled(false);
 	dicez.setFocusPainted(false);
 	dicez.setContentAreaFilled(false);
-	dice2thereckoning.setContentAreaFilled(false);
+	dice2thereckoning.setContentAreaFilled(false); //the sequal is never as good as the first
 	dice2thereckoning.setFocusPainted(false);
-	tdbtn.setContentAreaFilled(false);
+	tdbtn.setContentAreaFilled(false); //totally not a button
 	
 	rolling.setEnabled(true);
 	buying.setEnabled(false);
 	mortgage.setEnabled(false);
 	ending.setEnabled(false);
-	//spaces.setEnabled(false); //in case
+	//spaces.setEnabled(false); //in case of clicking
 
 	//debugging, finding x,y positions on the board for every click
     /*background.addMouseListener(new MouseAdapter() {
@@ -164,7 +164,7 @@ public class Board extends JFrame implements ActionListener {
 		}
 	});
 	*/
-	// refresh images
+	// refresh images after adding panels
 	setSize(1013,1037);
 	}
 	
@@ -283,6 +283,7 @@ public class Board extends JFrame implements ActionListener {
 	    	  if (Pos == 0) {
 	    		  System.out.println("Pass Rome, Collect 200."); //receive
 				  money = -200;
+				  tdplimg = 28;
 	    	  }
 	    	  if (Pos == 1) {
 	    		  buying.setEnabled(true);
