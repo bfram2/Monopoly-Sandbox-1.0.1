@@ -21,7 +21,8 @@ public class Board extends JFrame implements ActionListener {
 	final JButton dice2thereckoning;
 	final JButton tdbtn;
 	Players thePlayer = new Players(); //build 2, gaggle of Players[]
-	
+	int ttbuy = 0;
+	int tdmort = 0;
 	//board spaces
 	int chPos = 0; //cards for build 2
 	int ccPos = 0;
@@ -177,17 +178,17 @@ public class Board extends JFrame implements ActionListener {
 			Turn();
 			dicez.setIcon(new ImageIcon("src/pieces/images/Dice"+dice1+".png")); //refresh img dice
 			dice2thereckoning.setIcon(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
-			
+			spaces.setBounds(x[Pos], y[Pos], 70, 77);
 			//is this necessary?
-			if (Pos > 10) {
+			/*if (Pos > 10) {
 				spaces.setBounds(x[(Pos+1)], y[(Pos+1)], 70, 77); //make up for the lost space on the arena
 			} else {
 			spaces.setBounds(x[Pos], y[Pos], 70, 77); //move based on Position on the board
-			}
+			}*/
 			tdbtn.setIcon(new ImageIcon("src/cards/images/"+tdimages[tdplimg]+".PNG"));
 		}
 		if(e.getSource() == buying) {
-			if (money > buymort) {
+			if (Bal > ttbuy) {
 			//buy property
 			rolling.setEnabled(false);
 			buying.setEnabled(false);
@@ -196,10 +197,12 @@ public class Board extends JFrame implements ActionListener {
 			buymort = 0;
 			Buy();
 			} else {
-				
+			buying.setEnabled(false);
+			mortgage.setEnabled(false);	
 			}
 		}
 		if(e.getSource() == mortgage) {
+			if (Bal > (ttbuy/2)) {
 			//mortgage property
 			rolling.setEnabled(false);
 			buying.setEnabled(false);
@@ -207,6 +210,7 @@ public class Board extends JFrame implements ActionListener {
 			ending.setEnabled(true);
 			buymort = 1;
 			Buy();
+			}
 		}
 		if(e.getSource() == hmenu) {
 			//user guide
@@ -391,11 +395,12 @@ public class Board extends JFrame implements ActionListener {
 		  Prev = Pos;
 		  thePlayer.setPosition(Pos);
 		  thePlayer.setBalance(Bal);
-		  if (Pos > 10) {
-			  System.out.println("-Space: "+board[(Pos+1)]+", Dice: "+(dice1+dice2)+", Title Deed Card: "+tdimages[tdplimg]); 
-		  } else {
+		  ttbuy = tdBuy[titledeed];
+		  //if (Pos > 10) {
+			//  System.out.println("-Space: "+board[(Pos+1)]+", Dice: "+(dice1+dice2)+", Title Deed Card: "+tdimages[tdplimg]); 
+		  //} else {
 		  System.out.println("-Space: "+board[Pos]+", Dice: "+(dice1+dice2));
-		  }
+		  //}
 	      System.out.println("-Jail Counter: "+j+", Doubles counter: "+k);
 		  System.out.println("Player's balance: "+thePlayer.getBalance());
 		  //System.out.println("x: "+x[Pos]+", y:"+y[Pos]); //debugging
@@ -412,26 +417,24 @@ public class Board extends JFrame implements ActionListener {
 		}
 	}
 		public void Buy() {
-			int ttbuy = 0;
-			int tdmort = 0;
-			ttbuy = tdBuy[titledeed];
+			//ttbuy = tdBuy[titledeed];
 			//set mortgage
-			if (ttbuy < Bal) {
-			 if (ttbuy != 0 && buymort == 1) {
+			//if (ttbuy < Bal) {
+			 if ((ttbuy != 0) && (buymort == 1)) {
 				tdmort = (ttbuy/2);
 				Bal -= tdmort;
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+Bal+" - "+tdmort);
-			 }
+			// }
 			} //balance cannot be lower than property
-			if (ttbuy < Bal) {
+			//if (ttbuy < Bal) {
 			 if(buymort == 0) {
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+Bal+" - "+ttbuy);
 				Bal -= ttbuy;
-			 }
+			// }
 			} //balance cannot be lower than property
-			if (ttbuy > Bal || tdmort > Bal) {
-			System.out.println("-Place: "+tdPlaces[titledeed]+", Player balance is less than buy/mortgage cost: "+Bal);
-			}
+			//if (ttbuy > Bal || tdmort > Bal) {
+			//System.out.println("-Place: "+tdPlaces[titledeed]+", Player balance is less than buy/mortgage cost: "+Bal);
+			//}
 			//lock the item as bought and by which player
 			thePlayer.setBalance(Bal);
 			System.out.println("Player's balance: "+thePlayer.getBalance());
