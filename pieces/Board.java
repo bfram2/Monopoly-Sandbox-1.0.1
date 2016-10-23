@@ -266,18 +266,24 @@ public class Board extends JFrame implements ActionListener {
 	        //remainder operators for arrays, need one for k
 	        //System.out.println("Prev: "+Prev); //debugging
 	        Pos = (Prev + dice1 + dice2) % 40;
-	        System.out.println("Prev:"+Prev+", Pos: "+Pos); //debugging
+	        //System.out.println("Prev:"+Prev+", Pos: "+Pos); //debugging
 	        
 	        j = j % 4;
 	        //for build 2
 	        k = (dice1 == dice2) ? k + 1 : 0;
 	        if (k == 1) {
-	    	   System.out.println("Doubles! Roll again.");
+	        	plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+	    				thePlayer.getBalance()+" denarius <br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+" denarius <br/>Jail Counter: "+j+", Doubles Counter: "+
+	    						k+"<br/>Doubles! Roll again.</div></html>");
+	    	   //System.out.println("Doubles! Roll again.");
 	    	   rolling.setEnabled(true);
 			   ending.setEnabled(false);
 	        }
 	        if (k > 2 && k < 1) {
-	        	System.out.println("You have rolled doubles 3 times, Go to the Arena.");
+	        	plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+	    				thePlayer.getBalance()+" denarius <br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+" denarius <br/>Jail Counter: "+j+", Doubles Counter: "+
+	    						k+"<br/>You have rolled doubles 3 times, Go to the Arena.</div></html>");
+	        	//System.out.println("You have rolled doubles 3 times, Go to the Arena.");
 	        	//go to the arena
 	        	Pos = 11;
 	        	k = 0;
@@ -286,7 +292,7 @@ public class Board extends JFrame implements ActionListener {
 	        
 	        //checking the spaces token as moved to
 	       if (j == 0) {
-	    	   if (Pos > 10) {
+	    	   if (Prev < 10 && Pos > 10) {
 		        	Pos+= 1;
 		        	if (Pos > 39) {
 		        		Pos = 40 - Pos;
