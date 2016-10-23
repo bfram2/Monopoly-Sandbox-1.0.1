@@ -1,10 +1,11 @@
 package pieces;
 //Loading the board [fonts for board.jpg: Verdana 8pt, 6pt, 8pt bold]
+//position vs titledeed cards need to be fixed
 import javax.swing.*;
 import java.awt.*;
 //debugging tokens
-//import java.awt.event.MouseAdapter;
-//import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,10 +13,11 @@ import menu.HelpMenu;
 import menu.MainMenu;
 import events.Players;
 
+
 public class Board extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
-	JButton rolling, buying, mortgage, ending, mmenu, hmenu, spaces;
+	JButton rolling, buying, mortgage, ending, mmenu, hmenu, spaces, plbtn;
 	final JButton dicez;
 	final JButton dice2thereckoning;
 	final JButton tdbtn;
@@ -44,41 +46,49 @@ public class Board extends JFrame implements ActionListener {
 	int dice1 = 0;
 	int dice2 = 0;
 	
-	//buying or mortgaging properties
+	//buying price for title deeds
 	int[] tdBuy = {60,60,100,100,120,140,140,160,180,180,200,220,220,240,260,260,280,300,300,320,350,400,150,150,200,200,200,200};
+	//the name of the spaces with titledeeds
     String[] tdPlaces = {"Germania Inferior","Germania Superior","Alpes Poeniae","Alpes Cottiae","Aples Maritimae","Aquitania","Belgica","Raetia","Africa Proconsularis","Asia","Britannia","Cilicia","Galatia","Cappadocia","Aegyptus","Arabia Petraea","Syria","Macedonia","Epirus","Achaia","Sicilia","Italia","Sewers","Aqueducts","Via Appia","Via Flaminia","Via Aemilia","Via Popillia",""};
-	
+	//title deed card image names
 	String[] tdimages = {"Purple_GermaniaI","Purple_GermaniaS","BBlue_APoeniae","BBlue_ACottiae","BBlue_AMaritimae","DPink_Aquitania","DPink_Belgica","DPink_Raetia","Orange_AProconsularis","Orange_Asia","Orange_Britannia","Red_Cilicia","Red_Galatia","Red_Cappadocia","Yellow_Aegyptus","Yellow_APetraea","Yellow_Syria","Green_Macedonia","Green_Epirus","Green_Achaia","Blue_Sicilia", "Blue_Italia","Utility_Sewers","Utility_Aqueducts","Via_Appia","Via_Flaminia","Via_Aemilia","Via_Popillia",""};
+	//all spaces
+	String[] board = {"Go", "Germania Inferior", "Community Chest", "Germania Superior", "Render unto Caesar", "Via Appia", "Alpes Poeniae", "Chance", "Alpes Cottiae", "Alpes Maritimae", "See a battle", "Arena", "Aquitania", "Sewers", "Belgica", "Raetia", "Via Flaminia", "Africa Proconsularis", "Community Chest", "Asia", "Britannia", "Free Market", "Cilicia", "Chance", "Galatia", "Cappadocia", "Via Aemilia", "Aegyptus", "Arabia Petraea", "Aqueducts", "Syria", "Go to the Arena", "Macedonia", "Epirus", "Community Chest", "Achaia", "Via Popillia", "Chance", "Sicilia", "Citizens Tax", "Italia"};
+	
+	//token movement setBounds(x[Pos],y[Pos])
+    int[] x = {601,544,488,432,376,320,264,208,152,96,33,2, 76,76,76,76,76,76,76,76,76,144,226,306,384,464,543,624,703,785,885,865,865,865,865,865,865,865,865};
+    int[] y = {600,600,600,600,600,600,600,600,600,600,600,600, 545,489,432,377,381,321,264,208,153,11,32,32,32,32,32,32,32,32,32,27,144,224,302,383,461,542,702,784};
+    //buy
+    int[] buycounter = {}; //0 bank, 1 buy, 2 mortgage --> 28 spaces
     
-	//token movement
-    int[] x = {864,784,703,624,546,466,385,305,225,147,20,55,107,107,107,107,107,107,107,107,107,107,144,226,306,384,464,543,624,703,785,885,865,865,865,865,865,865,865,865};
-    int[] y = {865,865,865,865,865,865,865,865,865,865,884,866,782,702,622,542,462,381,301,222,142,16,32,32,32,32,32,32,32,32,32,27,144,224,302,383,461,542,702,784};
-    
+    //layout
 	public Board() {
 	setTitle("Board");
 	getContentPane();
 	setLocationRelativeTo(null);
 	pack();
+	setExtendedState(Frame.MAXIMIZED_BOTH);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setVisible(true);
-	setSize(1013,1036);
+	setSize(700,729);
 	setResizable(false);
 	setLayout(new BorderLayout());
+	//add(new JLabel(new ImageIcon("src/pieces/board.jpg")));
 	JPanel front = new JPanel();
 	front.setOpaque(false);
 	JLabel background=new JLabel(new ImageIcon("src/pieces/board.jpg"));
+	//JLabel background=new JLabel();
 	add(background);
-	background.setSize(1000,1000);
+	//background.setSize(700,700);
 	background.setLayout(null);
 	
-	//if not applicable grey out buttons, remember to add
-	rolling = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 20px 5px 20px;\"><u>R</u>oll Dice</div>");
-	buying = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 20px 5px 20px;\"><u>B</u>uy Property</div>");
-	mortgage = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 20px 5px 20px;\"><u>M</u>ortgage</div>");
-	ending = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 5px 5px 5px;\"><u>E</u>nd Turn</div>");
-	hmenu = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 5px 5px 5px;\"><u>H</u>elp Menu</div>");
+	//if not applicable grey out buttons
+	rolling = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px 15px 5px 15px;\"><u>R</u>oll Dice</div>");
+	buying = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>B</u>uy Property</div>");
+	mortgage = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>M</u>ortgage</div>");
+	ending = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>E</u>nd Turn</div>");
+	hmenu = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 5px;\"><u>H</u>elp Menu</div>");
 	mmenu = new JButton("<html><center><div style=\"color: white; font-weight: bold; font-family: verdana; font-size: 14pt; padding: 0px 5px 0px 5px;\"><u>E</u>nd Game<br/><span style=\"font-size: 9pt\">Return to Main Menu</span></div>");
-	JLabel blank = new JLabel("<html><br/><div style=\"color: white; border: none; padding: 0; width: 100px; height: 50px;\"></div><br/>");
 		rolling.setBackground(new Color(73,175,47));
 		buying.setBackground(new Color(71,71,255));
 		mortgage.setBackground(new Color(247, 153, 22));
@@ -92,10 +102,12 @@ public class Board extends JFrame implements ActionListener {
 	JLabel token1 = new JLabel(new ImageIcon("src/pieces/images/"+thePlayer.getToken()));
 	JLabel tdimg = new JLabel(new ImageIcon(""));
 	
+	//where images are stored
 	dicez = new JButton();
 	dice2thereckoning = new JButton();
 	spaces = new JButton();
 	tdbtn = new JButton();
+	plbtn = new JButton("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+thePlayer.getBalance()+"<br/>Space: "+board[Pos]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+k+"</div></html>");
 	
 	rolling.addActionListener(this);
 	buying.addActionListener(this);
@@ -111,16 +123,17 @@ public class Board extends JFrame implements ActionListener {
 	background.add(tdbtn);
 	background.add(dicez);
 	background.add(dice2thereckoning);
-	
-	front.setBounds(240, 540, 525, 400);
+	front.setBounds(120, 365, 450, 200);
 	spaces.setBorder(null);
 	dicez.setBorder(null);
 	tdbtn.setBorder(null);
+	plbtn.setBorder(null);
 	dice2thereckoning.setBorder(null);
-	spaces.setBounds(x[Pos],y[Pos], 70, 77); //move based on Position on the board
-	dicez.setBounds(350, 415, 50, 50);
-	dice2thereckoning.setBounds(400, 415, 50, 50);
-	tdbtn.setBounds(145,147,201,297);
+	spaces.setBounds(x[Pos],y[Pos], 56, 56); //move based on Position on the board
+	dicez.setBounds(259, 266, 50, 50);
+	dice2thereckoning.setBounds(309, 266, 50, 50);
+	tdbtn.setBounds(98,98,155,230);
+	plbtn.setBounds(118,450,100,100);
 	
 	front.add(rolling);
 	front.add(buying);
@@ -128,13 +141,14 @@ public class Board extends JFrame implements ActionListener {
 	front.add(ending);
 	front.add(hmenu);
 	front.add(mmenu);
-	front.add(blank);
+	front.add(plbtn);
 	front.add(die1);
 	front.add(die2);
 	spaces.add(token1);
 	dicez.add(die1);
 	dice2thereckoning.add(die2);
 	tdbtn.add(tdimg);
+	//plbtn.add(plscreen);
 	
 	//nope totally not buttons
 	dicez.setOpaque(false);
@@ -144,28 +158,32 @@ public class Board extends JFrame implements ActionListener {
 	spaces.setContentAreaFilled(false);
 	dicez.setFocusPainted(false);
 	dicez.setContentAreaFilled(false);
-	dice2thereckoning.setContentAreaFilled(false); //the sequal is never as good as the first
+	dice2thereckoning.setContentAreaFilled(false); //the sequel is never as good as the first
 	dice2thereckoning.setFocusPainted(false);
 	tdbtn.setContentAreaFilled(false); //totally not a button
+	plbtn.setFocusPainted(false);
+	plbtn.setContentAreaFilled(false);
+	plbtn.setOpaque(false);
 	
 	rolling.setEnabled(true);
 	buying.setEnabled(false);
 	mortgage.setEnabled(false);
 	ending.setEnabled(false);
-	//spaces.setEnabled(false); //in case of clicking
+	//plscreen.setEnabled(false); //in case of clicking
 
 	//debugging, finding x,y positions on the board for every click
-    /*background.addMouseListener(new MouseAdapter() {
+    background.addMouseListener(new MouseAdapter() {
 	public void mouseClicked(MouseEvent e) {
 			System.out.println("x: "+e.getX()+", y: "+e.getY());
 			return;
 		}
 	});
-	*/
+	
 	// refresh images after adding panels
-	setSize(1013,1037);
+	setSize(701,728);
 	}
 	
+	//button actions
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == rolling) {
 			//start turn
@@ -174,17 +192,12 @@ public class Board extends JFrame implements ActionListener {
 			mortgage.setEnabled(false);
 			ending.setEnabled(false);
 			Turn();
+			plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+k+"</div></html>");
 			dicez.setIcon(new ImageIcon("src/pieces/images/Dice"+dice1+".png")); //refresh img dice
 			dice2thereckoning.setIcon(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
 			spaces.setBounds(x[Pos], y[Pos], 70, 77);
-			
-			//is this necessary?
-			/*if (Pos > 10) {
-				spaces.setBounds(x[(Pos+1)], y[(Pos+1)], 70, 77); //make up for the lost space on the arena
-			} else {
-			spaces.setBounds(x[Pos], y[Pos], 70, 77); //move based on Position on the board
-			}*/
 			tdbtn.setIcon(new ImageIcon("src/cards/images/"+tdimages[tdplimg]+".PNG"));
+			
 			if (Bal < (ttbuy/2)) {
 				mortgage.setEnabled(false);
 			}
@@ -242,10 +255,9 @@ public class Board extends JFrame implements ActionListener {
 		public void Turn() {
 			int samples = 1; //one turn per button, player one only right now
 			for (int i = 0; i < samples; i++) {
-			//tdplimg = 1;
+			tdplimg = 28;
 			//loop until end of max turns  
 			//array for spaces on the board
-			String[] board = {"Go", "Germania Inferior", "Community Chest", "Germania Superior", "Render unto Caesar", "Via Appia", "Alpes Poeniae", "Chance", "Alpes Cottiae", "Alpes Maritimae", "See a battle", "Arena", "Aquitania", "Sewers", "Belgica", "Raetia", "Via Flaminia", "Africa Proconsularis", "Community Chest", "Asia", "Britannia", "Free Market", "Cilicia", "Chance", "Galatia", "Cappadocia", "Via Aemilia", "Aegyptus", "Arabia Petraea", "Aqueducts", "Syria", "Go to the Arena", "Macedonia", "Epirus", "Community Chest", "Achaia", "Via Popillia", "Chance", "Sicilia", "Citizens Tax", "Italia"};
 			int[] jail = new int[5];
 			int[] doubles = new int[4]; //errors when doubles are over 3, fix
 			dice1 = dice.nextInt(6) + 1;
@@ -255,8 +267,6 @@ public class Board extends JFrame implements ActionListener {
 	        //System.out.println("Prev: "+Prev); //debugging
 	        Pos = (Prev + dice1 + dice2) % 40;
 	        System.out.println("Prev:"+Prev+", Pos: "+Pos); //debugging
-	        
-	        
 	        
 	        j = j % 4;
 	        //for build 2
@@ -284,27 +294,31 @@ public class Board extends JFrame implements ActionListener {
 		        }
 	    	  if (Pos != 0) {
 			    if ((Prev > Pos) && (g == 0)) {
-			    System.out.println("Pass Rome, Collect 200."); //receive
+			    	plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+k+"<br/>Pass Rome, Collect 200.</div></html>");
+			    //System.out.println("Pass Rome, Collect 200."); //receive
 			    //System.out.println("Prev:"+Prev+", Pos: "+Pos);
 				money = -200;
 			    }
 		      }
 	    	  if (Pos == 0) {
-	    		  System.out.println("Pass Rome, Collect 200."); //receive
+	    		  plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+k+"<br/>Pass Rome, Collect 200.</div></html>");
+	    		  //System.out.println("Pass Rome, Collect 200."); //receive
 				  money = -200;
-				  tdplimg = 28;
 	    	  }
 	    	  if (Pos == 1) {
 	    		  buying.setEnabled(true);
 	    		  mortgage.setEnabled(true);
 	    		  ending.setEnabled(true);
 	    		  titledeed = 0; //Germania Inferior
+	    		  tdplimg = 0;
 	    	  }
 	    	  if (Pos == 3) {titledeed = 1;}   //Germania Superior
 			  if (Pos == 4) {
 				money = 200;
-				System.out.println("Render unto Caesar"); //pay
-	    		tdplimg = 28;
+				plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+				thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+						k+"<br/>Render unto Caesar.</div></html>");
+				//System.out.println("Render unto Caesar"); //pay
 	    		ending.setEnabled(true);
 			  }
 			  if (Pos == 5) {titledeed = 24;}  //Via Appia
@@ -319,10 +333,7 @@ public class Board extends JFrame implements ActionListener {
 			  if (Pos == 17) {titledeed = 8;}  //Africa Proconsularis
 			  if (Pos == 19) {titledeed = 9;}  //Asia
 			  if (Pos == 20) {titledeed = 10;} //Britannia
-			  if(Pos == 21) {
-				  ending.setEnabled(true);
-				  tdplimg = 28;
-			  } //free market
+			  if(Pos == 21) {ending.setEnabled(true);} //free market
 			  if (Pos == 22) {titledeed = 11;} //Cilicia
 			  if (Pos == 24) {titledeed = 12;} //Galatia
 			  if (Pos == 25) {titledeed = 13;} //Cappadocia
@@ -332,6 +343,7 @@ public class Board extends JFrame implements ActionListener {
 			  if (Pos == 29) {titledeed = 23;} //aqueducts
 			  if (Pos == 30) {titledeed = 16;} //Syria
 			  if (Pos == 31) {
+				  plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+k+"<br/>Go to the Arena.</div></html>");
 	    		  System.out.println("Go to the Arena.");
 	    		  Pos = 11;
 	    		  j = 1;
@@ -344,7 +356,10 @@ public class Board extends JFrame implements ActionListener {
 			  if (Pos == 38) {titledeed = 20;} //Sicilia
 			  if (Pos == 39) {
 				money = 100;
-	    		System.out.println("Citizen's Tax"); //pay
+				plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+						thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+								k+"<br/>Citizen's Tax.</div></html>");
+	    		//System.out.println("Citizen's Tax"); //pay
 	    		ending.setEnabled(true);
 	    	  }
 			  if (Pos == 40) {titledeed = 21;} //Italia
@@ -353,33 +368,47 @@ public class Board extends JFrame implements ActionListener {
 	    	  if (Pos == 7 || Pos == 23 || Pos == 37) {
 	    		  ending.setEnabled(true);
 				  chacard = chancez.nextInt(16) + 1;
-				  System.out.println("Draw a Chance Card: "+chacard);
+				  plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+							thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+									k+"<br/>Draw a Chance Card: Chance"+chacard+"</div></html>");
+				  //System.out.println("Draw a Chance Card: "+chacard);
 				  //Chance(); //build 2
 	    		  } //chance
 	    	  if (Pos == 2 || Pos == 18 || Pos == 34) {
 	    		  ending.setEnabled(true);
 	    		  checard = chestz.nextInt(16) + 1;
-	    		  System.out.println("Draw a Chest Card: "+checard);
+	    		  plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+							thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+									k+"<br/>Draw a Chest Card: Chest"+checard+"</div></html>");
+	    		  //System.out.println("Draw a Chest Card: "+checard);
 				  //CommunityChest(); //build 2
 	    		  } //chest
 	    	  if (Pos == 10) {
 	    		  ending.setEnabled(true);
 	    		  } //greater than 10 add one, due to Arena
 	    	  if (Pos == 11 && j == 0) {
-	    		  System.out.println("See a battle."); //see a battle
+	    		  plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+							thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+									k+"<br/>See a battle.</div></html>");
+	    		  //System.out.println("See a battle."); //see a battle
 	    		  ending.setEnabled(true);
 				  Pos = 10;
-	    	  }
-	        }
-	       
+	    	 }
+	       }
 	       //not j = 0 is in jail
 	      if(j > 0 && j < 4) {
 	    	Pos = 11;
-		    System.out.println("You are still in the Arena. Turns until free: "+(4-j)); //stay in jail for three turns or j=3
+	    	plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+					thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+							k+"<br/>You are still in the Arena. Turns until free: "+(4-j)+"</div></html>");
+		    //System.out.println("You are still in the Arena. Turns until free: "+(4-j)); //stay in jail for three turns or j=3
 		    j++;
 		    ending.setEnabled(true);
 		    if (k == 1) {
-		    	System.out.println("You rolled a double, escape the Arena.");
+		    	plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+						thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+								k+"<br/>You rolled a double, escape the Arena.</div></html>");
+		    	//System.out.println("You rolled a double, escape the Arena.");
 		    	j = 0;
 		    }
 	      }
@@ -395,6 +424,9 @@ public class Board extends JFrame implements ActionListener {
 	    	ending.setEnabled(true);
 	    	tdplimg = titledeed;
 		  }
+		  if (Pos == 2 || Pos == 7 || Pos == 10 || Pos == 11 || Pos == 18 || Pos == 21 || Pos == 23 || Pos == 31 || Pos == 34 || Pos == 37 || Pos == 39) {
+			  tdplimg = 28; //do not display card if on these positions
+		  }
 		  if (k > 3) {
 			  k = 3-k;
 		  } //keep doubles from going out of bounds
@@ -408,10 +440,11 @@ public class Board extends JFrame implements ActionListener {
 		  thePlayer.setPosition(Pos);
 		  thePlayer.setBalance(Bal);
 		  ttbuy = tdBuy[titledeed];
-
-		  System.out.println("-Space: "+board[Pos]+", "+titledeed+", Dice: "+(dice1+dice2));
-	      System.out.println("-Jail Counter: "+j+", Doubles counter: "+k+", Card counter: "+tdplimg);
-		  System.out.println("Player's balance: "+thePlayer.getBalance());
+		  
+		  //plbtn = new JButton("Player's Balance: "+thePlayer.getBalance()+", Space: "+board[Pos]+", Buy cost: "+ttbuy+", Jail Counter: "+j+", Doubles Counter: "+k);
+		  //System.out.println("-Space: "+board[Pos]+", "+titledeed+", Dice: "+(dice1+dice2));
+	      //System.out.println("-Jail Counter: "+j+", Doubles counter: "+k+", Card counter: "+tdplimg);
+		  //System.out.println("Player's balance: "+thePlayer.getBalance());
 		  //System.out.println("x: "+x[Pos]+", y:"+y[Pos]); //debugging
 		  
 		  if (Bal == 0) {
@@ -422,23 +455,32 @@ public class Board extends JFrame implements ActionListener {
 			ending.setEnabled(false);
 			mmenu.setEnabled(true);
 			hmenu.setEnabled(false);
-		  } //end game at end of roll if balance is zero
-		}
-	}
+		  } //end game at end of roll if balance is zero	
+	  } //end loop
+   } //turn end
+		
 		public void Buy() {
 			//ttbuy = tdBuy[titledeed];
 			//set mortgage
 			 if ((ttbuy != 0) && (buymort == 1)) {
 				tdmort = (ttbuy/2);
 				Bal -= tdmort;
-				System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+Bal+" - "+tdmort);
+				plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+						thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+								k+"<br/>You have mortgaged this space for: "+tdmort+"</div></html>");
+				//System.out.println("-Place: "+tdPlaces[titledeed]+", Mortgage: "+Bal+" - "+tdmort);
 			} //balance cannot be lower than property
 			 if(buymort == 0) {
+				 //set buy
+				 plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+							thePlayer.getBalance()+"<br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+"<br/>Jail Counter: "+j+", Doubles Counter: "+
+									k+"<br/>You have bought this space for: "+ttbuy+"</div></html>");
 				System.out.println("-Place: "+tdPlaces[titledeed]+", Pay: "+Bal+" - "+ttbuy);
 				Bal -= ttbuy;
 			} //balance cannot be lower than property
 			//lock the item as bought and by which player
 			thePlayer.setBalance(Bal);
-			System.out.println("Player's balance: "+thePlayer.getBalance());
+			//System.out.println("Player's balance: "+thePlayer.getBalance());
+			
 		}
 }
