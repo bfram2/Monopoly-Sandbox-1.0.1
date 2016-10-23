@@ -441,7 +441,6 @@ public class Board extends JFrame implements ActionListener {
 		  thePlayer.setBalance(Bal);
 		  ttbuy = tdBuy[titledeed];
 		  
-		  //plbtn = new JButton("Player's Balance: "+thePlayer.getBalance()+", Space: "+board[Pos]+", Buy cost: "+ttbuy+", Jail Counter: "+j+", Doubles Counter: "+k);
 		  //System.out.println("-Space: "+board[Pos]+", "+titledeed+", Dice: "+(dice1+dice2));
 	      //System.out.println("-Jail Counter: "+j+", Doubles counter: "+k+", Card counter: "+tdplimg);
 		  //System.out.println("Player's balance: "+thePlayer.getBalance());
@@ -455,6 +454,9 @@ public class Board extends JFrame implements ActionListener {
 			ending.setEnabled(false);
 			mmenu.setEnabled(true);
 			hmenu.setEnabled(false);
+			plbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 300px; font-size: 11pt; padding: 0;\">Player's Balance: "+
+					thePlayer.getBalance()+" denarius <br/>Title Deed Space: "+tdPlaces[titledeed]+", Buy cost: "+ttbuy+" denarius <br/>Jail Counter: "+j+", Doubles Counter: "+
+							k+"<br/>Game over.</div></html>");
 		  } //end game at end of roll if balance is zero	
 	  } //end loop
    } //turn end
