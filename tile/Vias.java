@@ -1,17 +1,18 @@
 package tile;
-import pieces.*;
+//import pieces.*;
 
 
 	public class Vias{
 
 		private int tileNumber;
 		private String name;
+		private String imgname;
 		private int group;
 		private int cost;
 		private int mortgage;
 		private int owner;
 		
-		public Vias(int tileNumber,String name, int group,int cost,int mortgage,int owner,int singleRent,int doubleRent,int tripleRent,int quadRent){
+		public Vias(int tileNumber,String name,String imgname,int group,int cost,int mortgage,int owner,int singleRent,int doubleRent,int tripleRent,int quadRent){
 			//tileNumber is the number of the property in order starting with Go as 0
 			//name is the name of the property
 			//group is the color grouping which have been assigned numbers 1-10
@@ -21,6 +22,7 @@ import pieces.*;
 			
 			tileNumber = this.tileNumber;
 			name = this.name;
+			imgname = this.imgname;
 			group = this.group;
 			cost = this.cost;
 			mortgage = this.mortgage;
@@ -39,6 +41,11 @@ import pieces.*;
 			Vias findByIndex = holder [index];
 			String n= findByIndex.name;
 			return n;
+		}
+		public static String getImgName(Vias[] holder, int index){
+			Vias findByIndex = holder [index];
+			String in= findByIndex.imgname;
+			return in;
 		}
 		public static int getGroup(Vias[] holder, int index){
 			Vias findByIndex = holder [index];

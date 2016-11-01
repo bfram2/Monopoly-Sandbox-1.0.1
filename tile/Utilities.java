@@ -6,12 +6,13 @@ public class Utilities {
 
 	private int tileNumber;
 	private String name;
+	private String imgname;
 	private int group;
 	private int cost;
 	private int mortgage;
 	private int owner;
 	
-	public Utilities(int tileNumber,String name, int group,int cost,int mortgage,int owner){
+	public Utilities(int tileNumber, String name, String imgname, int group, int cost, int mortgage, int owner){
 		//tileNumber is the number of the property in order starting with Go as 0
 		//name is the name of the property
 		//group is the color grouping which have been assigned numbers 1-10
@@ -21,6 +22,7 @@ public class Utilities {
 		
 		tileNumber = this.tileNumber;
 		name = this.name;
+		imgname = this.imgname;
 		group = this.group;
 		cost = this.cost;
 		mortgage = this.mortgage;
@@ -35,6 +37,11 @@ public class Utilities {
 		Utilities findByIndex = holder [index];
 		String n= findByIndex.name;
 		return n;
+	}
+	public static String getImgName(Utilities[] holder, int index){
+		Utilities findByIndex = holder [index];
+		String in= findByIndex.imgname;
+		return in;
 	}
 	public static int getGroup(Utilities[] holder, int index){
 		Utilities findByIndex = holder [index];
