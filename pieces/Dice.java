@@ -19,10 +19,10 @@ public class Dice {
                 // Roll the dice by setting each of the dice to be
                 // a random number between 1 and 6.
         	
-            die1 = (int)(Math.random()*6) + 1;
-        	die2 = (int)(Math.random()*6) + 1;
-        	//die1 = dice.nextInt(6) + 1;
-            //die2 = dice.nextInt(6) + 1;
+            //die1 = (int)(Math.random()*6) + 1;
+        	//die2 = (int)(Math.random()*6) + 1;
+        	die1 = dice.nextInt(6) + 1;
+            die2 = dice.nextInt(6) + 1;
             diet = die1 + die2;
         }
         public int getDie1() {
