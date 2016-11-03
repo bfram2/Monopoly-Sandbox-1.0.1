@@ -1,6 +1,6 @@
-//package cards;
-//import pieces.*;
-//import events.Players;
+package cards;
+import pieces.*;
+import events.Players;
 //For Image Chance Cards and their events
 
 /*
