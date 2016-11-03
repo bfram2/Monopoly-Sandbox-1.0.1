@@ -9,7 +9,8 @@ public class Players {
 	private String token;
 	private int position;
 	private int balance;
-	private int k, j, oj;
+	private int k, j;
+	private int oj;
 	String player;
 
 	public Players() {
@@ -18,8 +19,8 @@ public class Players {
         position = 0;          //update from Prev in Board
         balance = 1500;        //update from Bal in Board
         k = 0;                 //counters
-	j = 0;
-	oj = 0;	
+        j = 0;
+        oj = 0;	
         player = (name+token+position+balance);
 	}
 	
@@ -28,18 +29,18 @@ public class Players {
 	        this.token = token;
 	        this.position = position;
 	        this.balance = balance;
-		this.k = k;
-		this.j = j;
-		this.oj = oj;
+	        this.k = k;
+	        this.j = j;
+	        this.oj = oj;
 	}
 	public int getDoubles() {return k;}
 	public void setDoubles(int k) {this.k = k;}
 	
 	public int getJail() {return j;}
-	public void setJail() {this.j = j;}
+	public void setJail(int j) {this.j = j;}
 	
 	public int getOutJail() {return oj;}
-	public void setOutJail() {this.oj = oj;}
+	public void setOutJail(int oj) {this.oj = oj;}
 		
 	public String getName() {return name;}
 	public void setName(String name) {this.name = name;}
