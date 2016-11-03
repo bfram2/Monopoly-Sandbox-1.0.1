@@ -14,6 +14,7 @@ import events.Players;
 		private int chanceno;
 		private String imgname;
 		private int adjust;
+		private String outcome;
 		Random chan = new Random();
 		public Chance () {
 			//chanceno = 0;
@@ -21,11 +22,12 @@ import events.Players;
 			//jail = 0;
 			pull(); //pick card
 		}
-		public Chance(int chanceno, String imgname, int adjust) {
+		public Chance(int chanceno, String imgname, String outcome, int adjust) {
 			
 			chanceno = this.chanceno; //chanceno for random rolling 1-16
 			imgname = this.imgname; //imgname is the image location
 			adjust = this.adjust; //adjust is the amount Player Bal will change by
+			outcome = this.outcome; //prints the text of the card
 		}
 		public void pull() {
 		chanceno = chan.nextInt(16) + 1;
@@ -34,8 +36,10 @@ import events.Players;
 			if (chanceno == 1) {
 					if (PrevPos > 5) {PrevBal += 200;} //pass go
 					PrevPos = 5; //Via Appia
+					outcome = "Take a trip to Via Appia. If you pass Rome collect $200.";
 			}
 			if (chanceno == 2 || chanceno == 3) {
+				outcome = "Advance to the nearest Via. If UNOWNED, you may buy it from the Bank. \r\nIf OWNED, pay owner twice the rental to which they are otherwise entitled.";
 				if (PrevPos > 35 || PrevPos < 5) {
 					PrevPos = 5; //Via Appia
 					PrevBal += 200; //pass go
@@ -51,9 +55,12 @@ import events.Players;
 				}
 			} //nearest Via, if owned: pay 2(rent), if unowned can buy
 			if (chanceno == 4) {
+				outcome = "Gain a favor with a Senator, get out of the Gladiatorial Arena for free. This card may be kept until needed or traded.";
 				Outjail++; //get out of jail for free
 			}
 			if (chanceno == 5) {
+				
+				outcome = "Advance to the nearest Utility. If UNOWNED, you may buy it from the Bank. \r\nIf OWNED, throw dice and pay owner a total ten times amount thrown.";
 				if (PrevPos > 28 || PrevPos < 13) {
 					PrevPos = 13; //sewers
 				}
@@ -62,43 +69,55 @@ import events.Players;
 				} 
 			} //utilities
 			if (chanceno == 6) {
+				
+				outcome = "Advance to Rome. Collect $200.";
 				PrevPos = 0;
 				PrevBal += 200;
 			} //go to Rome
 			if (chanceno == 7) {
+				outcome = "A new road is built near your Villa raising its value, collect $150.";
 				PrevBal += 150; //collect 150
 			}
 			if (chanceno == 8) {
+				outcome = "Go back 3 spaces.";
 				PrevPos -= 3; //go back 3 spaces
 			}
 			if (chanceno == 9) {
-				PrevBal -= 100; //fine for now
+				outcome = "Make general repairs on all of your properties: For villa pay $25, For pantheons pay $100.";
+				PrevBal -= 100; //a fine for now
 				//Make general repairs on all of your properties:
 				//player's villas times 25
 				//player's pantheons times 100
 			}
 			if (chanceno == 10) {
+				outcome = "Advance to Italia.";
 				PrevPos = 40; //go to Italia
 			}
 			if (chanceno == 11) {
+				outcome = "Recent investment in more merchant carts gains you $50.";
 				PrevBal += 50; //collect 50
 			}
 			if (chanceno == 12) {
+				outcome = "Your horses escape into the city. Pay a $15 fine.";
 				PrevBal -= 15; //fine of 15
 			}
 			if (chanceno == 13) {
+				outcome = "Go to the Gladiatorial Arena. Go directly to the arena, DO NOT pass Rome, DO NOT collect $200.";
 				PrevPos = 11;
 				jail = 1; //go to jail
 			}
 			if (chanceno == 14) {
+				outcome = "Advance to Aquitania. If you pass Rome, Collect $200.";
 					if (PrevPos > 12) {PrevBal += 200;} //pass go
 					PrevPos = 12; //Aquitania
 			}
 			if (chanceno == 15) {
+				outcome = "Advance to Cappadocia. If you pass Rome, Collect $200.";
 					if (PrevPos > 25) {PrevBal += 200;} //pass go
 					PrevPos = 25; //Cappadocia
 			}
 			if (chanceno == 16) {
+				outcome = "You have been elected a Senator, pay each player $50.";
 				PrevBal -= 50; //fine of 50
 			} //pay each player 50 later, count Players array
 
@@ -109,6 +128,7 @@ import events.Players;
 		}  //end pull
 		public int getChanceNo() {return chanceno;}
 		public String getImgName() {return imgname;} 
+		public String getOutcome() {return outcome;}
 		public int getAdjust() {return adjust;}
 }
 	
@@ -116,11 +136,9 @@ import events.Players;
 	1.Take a trip to Via Appia. If you pass Rome collect $200.
 	2,3. Advance to the nearest Via. If UNOWNED, you may buy it from the Bank. 
 	If OWNED, pay owner twice the rental to which they are otherwise entitled.
-
 	4. Gain a favor with a Senator, get out of the Gladiatorial Arena for free. This card may be kept until needed or traded.
 	5. Advance to the nearest Utility. If UNOWNED, you may buy it from the Bank. 
 	If OWNED, throw dice and pay owner a total ten times amount thrown.
-
 	6. Advance to Rome. Collect $200.
 	7. A new road is built near your Villa raising its value, collect $150.
 	8. Go back 3 spaces.
