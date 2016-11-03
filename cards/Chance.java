@@ -71,6 +71,7 @@ import events.Players;
 				PrevPos -= 3; //go back 3 spaces
 			}
 			if (chanceno == 9) {
+				PrevBal -= 100; //fine for now
 				//Make general repairs on all of your properties:
 				//player's villas times 25
 				//player's pantheons times 100
