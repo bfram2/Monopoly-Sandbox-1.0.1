@@ -4,7 +4,6 @@ import java.util.Random;
 import events.Players;
 //For image Chance Cards and their events
 
-
 	public class Chance {
 		Players thePlayer = new Players();     //need position, balance, oj, k & j counters
 		int PrevPos = thePlayer.getPosition(); //player's current position
@@ -16,7 +15,11 @@ import events.Players;
 		private String imgname;
 		private int adjust;
 		Random chan = new Random();
-		
+		public Chance () {
+			chanceno = 0;
+			imgname = "";
+			jail = 0;
+		}
 		public Chance(int chanceno, String imgname, int adjust) {
 			pull(); //pick card
 			chanceno = this.chanceno; //chanceno for random rolling 1-16
