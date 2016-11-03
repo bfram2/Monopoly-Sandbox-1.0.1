@@ -1,6 +1,9 @@
 package events;
 //Switch between player and computer player
 //Use images of the dollar bills or money counter with just the digits ie. 100.00 denarius
+//int k = 0; //doubles counter
+//int j = 0; //jail counter
+//int g = 0; //pass go counter
 public class Players {
 	private String name;
 	private String token;
