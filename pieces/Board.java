@@ -8,11 +8,12 @@ import java.awt.*;
 //debugging tokens
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
+//import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import menu.HelpMenu;
 import menu.MainMenu;
+import cards.Chance;
 import events.Players;
 import pieces.Dice;
 
@@ -32,24 +33,17 @@ public class Board extends JFrame implements ActionListener {
 	int ttbuy = 0;
 	int tdmort = 0;
 	//board spaces
-	int chPos = 0; //cards for build 2
-	int ccPos = 0;
 	int tdPos = 0;
 	int titledeed = 0; //buy picks
 	int tdplimg = 28; //titledeed card counter
 	int buymort = 0; //counter for buy or mortgage
 	int Pos = 0; //board positions
 	int money = 0;
-	int Prev = thePlayer.getPosition();
+	int Prev;
 	int Bal = thePlayer.getBalance();
 	int k = 0; //doubles counter
-	int j = 0; //jail counter
-	int g = 0; //pass go counter
-	Random chancez = new Random(); //build 2
-	Random chestz = new Random();
-	int chacard = 0;
-	int checard = 0;
-	//Random dice = new Random(); //the dice
+	int j = thePlayer.getJail(); //jail counter
+	//int g = 0; //pass go counter
 	int dice1 = 0;
 	int dice2 = 0;
 	
@@ -278,19 +272,25 @@ public class Board extends JFrame implements ActionListener {
     }
 
 		public void Turn() {
-			int samples = 1; //one turn per button, player one only right now
-			for (int i = 0; i < samples; i++) {
-			tdplimg = 28;
+			for (int i = 0; i < 1; i++) {
+				Prev = thePlayer.getPosition();
+				tdplimg = 28;
 			//loop until end of max turns  
 			//array for spaces on the board
 			int[] jail = new int[5];
 			int[] doubles = new int[4]; //errors when doubles are over 3, fix
-			Dice theDice = new Dice();
+			
+			Chance theChance = new Chance(); //chance class
+			int chacard = theChance.getChanceNo(); 
+			String chaimg = theChance.getImgName();
+			
+			Dice theDice = new Dice(); //dice class
 	        dice1 = theDice.getDie1();
 	    	dice2 = theDice.getDie2();
 	    	
 	        Pos = (Prev + dice1 + dice2) % 40;
-	        //System.out.println("Prev:"+Prev+", Pos: "+Pos); //debugging
+	        thePlayer.setPosition(Pos); //set position early for Chance
+	        System.out.println("Prev:"+Prev+", Pos: "+Pos); //debugging
 	        //System.out.println("Dice1: "+dice1+", Dice2: "+dice2+" = "+theDice.getTotal());
 	        j = j % 4;
 	        k = (dice1 == dice2) ? k + 1 : 0;
@@ -313,18 +313,22 @@ public class Board extends JFrame implements ActionListener {
 	       if (j == 0) {
 	    	   if (Prev < 10 && Pos > 10) {
 		        	Pos+= 1;
+		        	thePlayer.setPosition(Pos);
 		        	if (Pos > 39) {
 		        		Pos = 40 - Pos;
+		        		System.out.println("Out of bounds: "+Pos);
 		        	}
 		        }
 	    	  if (Pos != 0) {
-			    if ((Prev > Pos) && (g == 0)) {
+			    if ((Prev > Pos) && (j == 0)) {
 			    	statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Pass Rome, Collect 200 denarius.</div></html>");
 			    //System.out.println("Pass Rome, Collect 200."); //receive
 			    //System.out.println("Prev:"+Prev+", Pos: "+Pos);
 				money = -200;
 			    }
 		      }
+	    	  
+	    	  
 	    	  if (Pos == 0) {
 	    		  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Pass Rome, Collect 200 denarius.</div></html>");
 	    		  //System.out.println("Pass Rome, Collect 200."); //receive
@@ -370,7 +374,6 @@ public class Board extends JFrame implements ActionListener {
 	    		  //System.out.println("Go to the Arena.");
 	    		  Pos = 11;
 	    		  j = 1;
-	    		  g = 1;
 				  ending.setEnabled(true);
 	    	  }
 			  if (Pos == 32) {titledeed = 17;} //Macedonia
@@ -386,17 +389,21 @@ public class Board extends JFrame implements ActionListener {
 			  if (Pos == 40) {titledeed = 21;} //Italia
 	    	  
 	    	  if (Pos == 36) {titledeed = 27;} //Via Popillia
+	    	  
 	    	  if (Pos == 7 || Pos == 23 || Pos == 37) {
+	    		  tdbtn.setIcon(new ImageIcon(chaimg));
+	    		  tdbtn.repaint();
 	    		  ending.setEnabled(true);
-				  chacard = chancez.nextInt(16) + 1;
-				  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Draw a Chance Card: Chance"+chacard+"</div></html>");
-				  //System.out.println("Draw a Chance Card: "+chacard);
-				  //Chance(); //build 2
+				  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Draw a Chance Card: Chance"
+				  +chacard+"</div></html>");
+				  
+				  //System.out.println("Draw a Chance Card: "+chaimg);
+				  //new Chance();
 	    		  } //chance
 	    	  if (Pos == 2 || Pos == 18 || Pos == 34) {
 	    		  ending.setEnabled(true);
-	    		  checard = chestz.nextInt(16) + 1;
-	    		  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Draw a Chest Card: Chest"+checard+"</div></html>");
+	    		  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Draw a Chest Card: Chest"
+	    		  +"Chest0"+"</div></html>");
 	    		  //System.out.println("Draw a Chest Card: "+checard);
 				  //CommunityChest(); //build 2
 	    		  } //chest
@@ -426,7 +433,7 @@ public class Board extends JFrame implements ActionListener {
 	      if (j > 3) {
 	    	  System.out.println("Pay 50.");
 			  money = 50;
-			  g = 0;
+			  j = 0;
 	    	  ending.setEnabled(true);
 	      }
 		  if(titledeed != 0) {
@@ -453,11 +460,13 @@ public class Board extends JFrame implements ActionListener {
 	      y[Pos]++;
 	      jail[j]++;
 	      doubles[k]++;
+	      Prev = Pos;
 		  Bal -= money;
 		  money = 0;
-		  Prev = Pos;
-		  thePlayer.setPosition(Pos);
-		  thePlayer.setBalance(Bal);
+		  thePlayer.setDoubles(k); //doubles counter
+		  thePlayer.setJail(j); //jail counter
+		  //thePlayer.setPosition(Pos); //position
+		  thePlayer.setBalance(Bal); //player balance
 		  ttbuy = tdBuy[titledeed];
 		  
 		  //System.out.println("-Space: "+board[Pos]+", "+titledeed+", Dice: "+(dice1+dice2));
