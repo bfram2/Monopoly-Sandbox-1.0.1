@@ -16,12 +16,13 @@ import events.Players;
 		private int adjust;
 		Random chan = new Random();
 		public Chance () {
-			chanceno = 0;
-			imgname = "";
-			jail = 0;
+			//chanceno = 0;
+			//imgname = "src/cards/images/Chance1.PNG";
+			//jail = 0;
+			pull(); //pick card
 		}
 		public Chance(int chanceno, String imgname, int adjust) {
-			pull(); //pick card
+			
 			chanceno = this.chanceno; //chanceno for random rolling 1-16
 			imgname = this.imgname; //imgname is the image location
 			adjust = this.adjust; //adjust is the amount Player Bal will change by
@@ -110,6 +111,7 @@ import events.Players;
 		public String getImgName() {return imgname;} 
 		public int getAdjust() {return adjust;}
 }
+	
 	/*
 	1.Take a trip to Via Appia. If you pass Rome collect $200.
 	2,3. Advance to the nearest Via. If UNOWNED, you may buy it from the Bank. 
