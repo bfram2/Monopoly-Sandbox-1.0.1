@@ -20,7 +20,7 @@ import pieces.Dice;
 
 public class Board extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	JButton rolling, buying, mortgage, ending, mmenu, hmenu, spaces, plbtn, statusbtn;
+	JButton rolling, buying, mortgage, ending, mmenu, hmenu, spaces, plbtn, chabtn, statusbtn;
 	final JButton dicez;
 	final JButton dice2thereckoning;
 	final JButton tdbtn;
@@ -44,6 +44,8 @@ public class Board extends JFrame implements ActionListener {
 	int k = 0; //doubles counter
 	int j = thePlayer.getJail(); //jail counter
 	//int g = 0; //pass go counter
+	int chacard;
+	String chaimg;
 	int dice1 = 0;
 	int dice2 = 0;
 	
@@ -107,12 +109,14 @@ public class Board extends JFrame implements ActionListener {
 	JLabel die2=new JLabel(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
 	JLabel token1 = new JLabel(new ImageIcon("src/pieces/images/"+thePlayer.getToken()));
 	JLabel tdimg = new JLabel(new ImageIcon(""));
+	JLabel chanceimg = new JLabel(new ImageIcon(chaimg));
 	
 	//where images are stored
 	dicez = new JButton();
 	dice2thereckoning = new JButton();
 	spaces = new JButton();
 	tdbtn = new JButton();
+	chabtn = new JButton();
 	plbtn = new JButton("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Player 1<br/> Balance: "+thePlayer.getBalance()+
 			" denarius <br/>Space: "+board[Pos]+
 			", <br/>Buy cost: "+ttbuy+" denarius <br/>Jail Counter: "+j+", Doubles Counter: "+k+"</div></html>");
@@ -141,6 +145,7 @@ public class Board extends JFrame implements ActionListener {
 	spaces.setBorder(null);
 	dicez.setBorder(null);
 	tdbtn.setBorder(null);
+	chabtn.setBorder(null);
 	plbtn.setBorder(null);
 	statusbtn.setBorder(null);
 	dice2thereckoning.setBorder(null);
@@ -150,6 +155,7 @@ public class Board extends JFrame implements ActionListener {
 	dice2thereckoning.setBounds(309, 266, 50, 50);
 	tdbtn.setBounds(98,98,155,230);
 	plbtn.setBounds(0,10,100,100);
+	chabtn.setBounds(230,170,100,200);
 	
 	front.add(rolling);
 	front.add(buying);
@@ -162,6 +168,8 @@ public class Board extends JFrame implements ActionListener {
 	
 	spaces.add(token1); //token movement
 	tdbtn.add(tdimg); //title deed cards
+	chabtn.add(chanceimg); //chance cards
+	stats.add(chabtn);
 	
 	//nope totally not buttons
 	dicez.setOpaque(false);
@@ -213,7 +221,11 @@ public class Board extends JFrame implements ActionListener {
 			dicez.setIcon(new ImageIcon("src/pieces/images/Dice"+dice1+".png")); //refresh img dice
 			dice2thereckoning.setIcon(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
 			spaces.setBounds(x[Pos], y[Pos], 50, 56);
+			if (Pos == 7 || Pos == 23 || Pos == 37) {
+	    		  tdbtn.setIcon(new ImageIcon(chaimg));
+			} else {
 			tdbtn.setIcon(new ImageIcon("src/cards/images/"+tdimages[tdplimg]+".PNG"));
+			}
 			//boardFrame.setSize(350,727);
 			//dice1 = 0;
 			//dice2 = 0;
@@ -281,8 +293,8 @@ public class Board extends JFrame implements ActionListener {
 			int[] doubles = new int[4]; //errors when doubles are over 3, fix
 			
 			Chance theChance = new Chance(); //chance class
-			int chacard = theChance.getChanceNo(); 
-			String chaimg = theChance.getImgName();
+			chacard = theChance.getChanceNo(); 
+			chaimg = theChance.getImgName();
 			
 			Dice theDice = new Dice(); //dice class
 	        dice1 = theDice.getDie1();
@@ -396,9 +408,7 @@ public class Board extends JFrame implements ActionListener {
 	    		  ending.setEnabled(true);
 				  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Draw a Chance Card: Chance"
 				  +chacard+"</div></html>");
-				  
 				  //System.out.println("Draw a Chance Card: "+chaimg);
-				  //new Chance();
 	    		  } //chance
 	    	  if (Pos == 2 || Pos == 18 || Pos == 34) {
 	    		  ending.setEnabled(true);
