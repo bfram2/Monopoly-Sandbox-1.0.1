@@ -46,6 +46,7 @@ public class Board extends JFrame implements ActionListener {
 	//int g = 0; //pass go counter
 	int chacard;
 	String chaimg;
+	String chaout;
 	int dice1 = 0;
 	int dice2 = 0;
 	
@@ -153,7 +154,8 @@ public class Board extends JFrame implements ActionListener {
 	
 	dicez.setBounds(259, 266, 50, 50);
 	dice2thereckoning.setBounds(309, 266, 50, 50);
-	tdbtn.setBounds(98,98,155,230);
+	tdbtn.setBounds(98,98,155,230); //on board
+	//tdbtn.setBounds(98,98,100,200);
 	plbtn.setBounds(0,10,100,100);
 	chabtn.setBounds(230,170,100,200);
 	
@@ -165,6 +167,7 @@ public class Board extends JFrame implements ActionListener {
 	front.add(mmenu);
 	stats.add(plbtn);
 	stats.add(statusbtn);
+	
 	
 	spaces.add(token1); //token movement
 	tdbtn.add(tdimg); //title deed cards
@@ -221,11 +224,8 @@ public class Board extends JFrame implements ActionListener {
 			dicez.setIcon(new ImageIcon("src/pieces/images/Dice"+dice1+".png")); //refresh img dice
 			dice2thereckoning.setIcon(new ImageIcon("src/pieces/images/Dice"+dice2+".png"));
 			spaces.setBounds(x[Pos], y[Pos], 50, 56);
-			if (Pos == 7 || Pos == 23 || Pos == 37) {
-	    		  tdbtn.setIcon(new ImageIcon(chaimg));
-			} else {
 			tdbtn.setIcon(new ImageIcon("src/cards/images/"+tdimages[tdplimg]+".PNG"));
-			}
+			
 			//boardFrame.setSize(350,727);
 			//dice1 = 0;
 			//dice2 = 0;
@@ -295,6 +295,7 @@ public class Board extends JFrame implements ActionListener {
 			Chance theChance = new Chance(); //chance class
 			chacard = theChance.getChanceNo(); 
 			chaimg = theChance.getImgName();
+			chaout = theChance.getOutcome();
 			
 			Dice theDice = new Dice(); //dice class
 	        dice1 = theDice.getDie1();
@@ -403,12 +404,8 @@ public class Board extends JFrame implements ActionListener {
 	    	  if (Pos == 36) {titledeed = 27;} //Via Popillia
 	    	  
 	    	  if (Pos == 7 || Pos == 23 || Pos == 37) {
-	    		  tdbtn.setIcon(new ImageIcon(chaimg));
-	    		  tdbtn.repaint();
 	    		  ending.setEnabled(true);
-				  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Draw a Chance Card: Chance"
-				  +chacard+"</div></html>");
-				  //System.out.println("Draw a Chance Card: "+chaimg);
+				  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">Draw a Chance Card.<br>"+chaout+"</div></html>");
 	    		  } //chance
 	    	  if (Pos == 2 || Pos == 18 || Pos == 34) {
 	    		  ending.setEnabled(true);
@@ -441,7 +438,7 @@ public class Board extends JFrame implements ActionListener {
 		    }
 	      }
 	      if (j > 3) {
-	    	  System.out.println("Pay 50.");
+	    	  statusbtn.setText("<html><div style=\"color: black; font-family: verdana; width: 267px; font-size: 11pt; padding-left: 10px;\">You paid a fine, leave the arena.</div></html>");
 			  money = 50;
 			  j = 0;
 	    	  ending.setEnabled(true);
