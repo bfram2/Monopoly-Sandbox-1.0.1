@@ -17,9 +17,6 @@ import events.Players;
 		private String outcome;
 		Random chan = new Random();
 		public Chance () {
-			//chanceno = 0;
-			//imgname = "src/cards/images/Chance1.PNG";
-			//jail = 0;
 			pull(); //pick card
 		}
 		public Chance(int chanceno, String imgname, String outcome, int adjust) {
@@ -31,7 +28,7 @@ import events.Players;
 		}
 		public void pull() {
 		chanceno = chan.nextInt(16) + 1;
-		imgname = "src/cards/images/Chance"+chanceno+".PNG"; //src/cards/images/Chance1-16.PNG
+		imgname = "src/cards/images/Chance"+chanceno+".PNG"; // src/cards/images/Chance1-16.PNG
 		if (jail == 0) {
 			if (chanceno == 1) {
 					if (PrevPos > 5) {PrevBal += 200;} //pass go
