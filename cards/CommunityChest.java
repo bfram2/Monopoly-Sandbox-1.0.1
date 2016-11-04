@@ -33,18 +33,22 @@ public class CommunityChest {
 			if (chestno == 1) {
 				outcome = "Bank error in your favor. Collect $200.";
 				PrevBal += 200;
+				adjust = 200;
 			}
 			if (chestno == 2) {
 				outcome = "Pay private physician fees of $100.";
 				PrevBal -= 100;
+				adjust = -100;
 			}
 			if (chestno == 3) {
 				outcome = "From sale of merchant carts, you get $50.";
 				PrevBal += 50;
+				adjust = 50;
 			}
 			if (chestno == 4) {	
 				outcome = "You inherit a small Villa, gain $100.";
 				PrevBal += 100;
+				adjust = 100;
 			}
 			if (chestno == 5) {
 				jail = 1;
@@ -54,42 +58,52 @@ public class CommunityChest {
 				PrevPos = 0;
 				outcome = "Advance to Rome. Collect $200.";
 				PrevBal += 200;
+				adjust = 200;
 			}
 			if (chestno == 7) {
 				outcome = "Render too much unto Caesar, Collect $200.";
 				PrevBal += 200;
+				adjust = 200;
 			}
 			if (chestno == 8) {
 				outcome = "Roman official assesses you for street repairs: $40 per villa, $115 per pantheon.";
 				PrevBal -= 100; //needs to be: 40(villa), 115(pantheon)
+				adjust = -100;
 			}
 			if (chestno == 9) {
 				outcome = "You have won the second price in the Campus Track & Field foot race. Collect $10.";
 				PrevBal += 10;
+				adjust = 10;
 			}
 			if (chestno == 10) {
 				outcome = "Your properties and assets mature, join the Equestrian Order. Collect $100.";
 				PrevBal += 100;
+				adjust = 100;
 			}
 			if (chestno == 11) {
 				outcome = "Sell bulk staples to the bank, receive $100.";
 				PrevBal += 100;
+				adjust = 100;
 			}
 			if (chestno == 12) {
 			outcome = "Pay farmer's tax of $25.";
 			PrevBal -= 25;
+			adjust = -25;
 			}
 			if (chestno == 13) {
 			outcome = "You have a coming of age party, Collect $10 from every player.";
-			PrevBal += 10; //needs to be per player array
+			PrevBal += 10; //needs to be per player array pull from Bal of each
+			adjust = 10;
 			}
 			if (chestno == 14) {
 			outcome = "Pay school fees of $50.";
 			PrevBal -= 50;
+			adjust = -50;
 			}
 			if (chestno == 15) {
 			outcome = "Medical institution fees, pay $50.";
 			PrevBal -= 50;
+			adjust = -50;
 			}
 			if (chestno == 16) {
 				Outjail++;

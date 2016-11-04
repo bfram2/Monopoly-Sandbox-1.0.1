@@ -20,11 +20,10 @@ import events.Players;
 			pull(); //pick card
 		}
 		public Chance(int chanceno, String imgname, String outcome, int adjust) {
-			
 			chanceno = this.chanceno; //chanceno for random rolling 1-16
-			imgname = this.imgname; //imgname is the image location
-			adjust = this.adjust; //adjust is the amount Player Bal will change by
-			outcome = this.outcome; //prints the text of the card
+			imgname = this.imgname;   //imgname is the image location
+			adjust = this.adjust;     //adjust is the amount Player Bal will change by
+			outcome = this.outcome;   //prints the text of the card
 		}
 		public void pull() {
 		chanceno = chan.nextInt(16) + 1;
@@ -40,6 +39,7 @@ import events.Players;
 				if (PrevPos > 35 || PrevPos < 5) {
 					PrevPos = 5; //Via Appia
 					PrevBal += 200; //pass go
+					adjust = 200; 
 				}
 				if (PrevPos > 4 || PrevPos < 16) {
 					PrevPos = 16; //Via Flaminia
@@ -57,7 +57,7 @@ import events.Players;
 			}
 			if (chanceno == 5) {
 				
-				outcome = "Advance to the nearest Utility. If UNOWNED, you may buy it from the Bank. \r\nIf OWNED, throw dice and pay owner a total ten times amount thrown.";
+				outcome = "Advance to the nearest Utility. If UNOWNED, you may buy it from the Bank. If OWNED, throw dice and pay owner a total ten times amount thrown.";
 				if (PrevPos > 28 || PrevPos < 13) {
 					PrevPos = 13; //sewers
 				}
@@ -66,14 +66,15 @@ import events.Players;
 				} 
 			} //utilities
 			if (chanceno == 6) {
-				
 				outcome = "Advance to Rome. Collect $200.";
 				PrevPos = 0;
 				PrevBal += 200;
+				adjust = 200;
 			} //go to Rome
 			if (chanceno == 7) {
 				outcome = "A new road is built near your Villa raising its value, collect $150.";
 				PrevBal += 150; //collect 150
+				adjust = 150;
 			}
 			if (chanceno == 8) {
 				outcome = "Go back 3 spaces.";
@@ -82,6 +83,7 @@ import events.Players;
 			if (chanceno == 9) {
 				outcome = "Make general repairs on all of your properties: For villa pay $25, For pantheons pay $100.";
 				PrevBal -= 100; //a fine for now
+				adjust = -100;
 				//Make general repairs on all of your properties:
 				//player's villas times 25
 				//player's pantheons times 100
@@ -93,10 +95,12 @@ import events.Players;
 			if (chanceno == 11) {
 				outcome = "Recent investment in more merchant carts gains you $50.";
 				PrevBal += 50; //collect 50
+				adjust = 50;
 			}
 			if (chanceno == 12) {
 				outcome = "Your horses escape into the city. Pay a $15 fine.";
 				PrevBal -= 15; //fine of 15
+				adjust = -15;
 			}
 			if (chanceno == 13) {
 				outcome = "Go to the Gladiatorial Arena. Go directly to the arena, DO NOT pass Rome, DO NOT collect $200.";
@@ -105,17 +109,18 @@ import events.Players;
 			}
 			if (chanceno == 14) {
 				outcome = "Advance to Aquitania. If you pass Rome, Collect $200.";
-					if (PrevPos > 12) {PrevBal += 200;} //pass go
+					if (PrevPos > 12) {PrevBal += 200; adjust = 200;} //pass go
 					PrevPos = 12; //Aquitania
 			}
 			if (chanceno == 15) {
 				outcome = "Advance to Cappadocia. If you pass Rome, Collect $200.";
-					if (PrevPos > 25) {PrevBal += 200;} //pass go
+					if (PrevPos > 25) {PrevBal += 200; adjust = 200;} //pass go
 					PrevPos = 25; //Cappadocia
 			}
 			if (chanceno == 16) {
 				outcome = "You have been elected a Senator, pay each player $50.";
 				PrevBal -= 50; //fine of 50
+				adjust = -50;
 			} //pay each player 50 later, count Players array
 
 			thePlayer.setPosition(PrevPos); //set Player position, counters & balance
