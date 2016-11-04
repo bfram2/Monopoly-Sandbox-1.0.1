@@ -29,7 +29,7 @@ public class StartGame {
             new Properties(35,"Achaia","Green_Achaia.PNG",7,320,160,0,0,0,28,56),
             new Properties(38,"Sicilia","Blue_Sicilia.PNG",8,350,175,0,0,0,35,70),
             new Properties(40,"Italia","Blue_Italia.PNG",8,400,200,0,0,0,50,100),
-        };  //tileNumber = Pos, name, image name, group, cost, mortgage, owner, houses, hotels, rent, group rent
+        };  //tileNumber = Pos, name, image name, group, cost, mortgage, owner, villas, pantheons, rent, group rent
 			
     Vias [] roads = {
         new Vias(5,"Via Appia","Via_Appia.PNG",10,200,100,0,0,0,0,0),
